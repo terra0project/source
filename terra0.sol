@@ -54,7 +54,7 @@ mapping(int => Tree) public dataItems;
     function getmaxage(string treetype) constant returns (int) {
         return DataTreespecs[treetype].max_age;
     }
-
+    ///terra0.getmaxage()
     function getvalue1(int _number) constant returns (int) {
         return dataItems[_number].age;
     }
