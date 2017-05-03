@@ -6,7 +6,7 @@ contract sapling {
   ///http://www.furtherfield.org/programmes/exhibition/new-world-order
   ///not finished yet
 
-uint age_of_the_tree = now;
+uint public age_of_the_tree = now;
 uint8 value = 1;
 address public owner;
 address public terra0adress;
@@ -27,14 +27,17 @@ if (onetime == true){
   onetime = false;
 }
 
-function Ownership()constant returns(address){
+function get_Ownership()constant returns(address){
 return owner;
 }
 function thebalance()constant returns(uint256){
 return this.balance;
 }
-function time_now()constant returns(uint){
-return now;
+function get_age()constant returns(uint){
+return age_of_the_tree;
+}
+function get_value()constant returns(uint){
+return value;
 }
 
 function Purchase() payable {
@@ -46,14 +49,15 @@ if (!msg.sender.send(rest))
 transferOwnership(msg.sender);
 }
 
-function calculatevalue()constant returns(uint){
+function calculatevalue(){
   age_of_the_tree =  ((age_of_the_tree - now)*uint(-1))  * 1 minutes;
   //value =
-  return age_of_the_tree;
+  //return age_of_the_tree;
   //uint new_time = last_block_number
   //last_block_number + ((future_time - time_now) / block_time)
 }
 
-
+//web3.eth
+//web3.eth.sendTransaction({from:web3.eth.coinbase, to:'0xdfCE4d0Ce94E3644c510EA027f2DBA838811BA1F', value: 50})
 
 }
