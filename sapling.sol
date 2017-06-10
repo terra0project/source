@@ -6,17 +6,33 @@ contract sapling {
   ///http://www.furtherfield.org/programmes/exhibition/new-world-order
   ///not finished yet
 
-uint public age_of_the_tree = now;
-uint8 value = 1;
-address public owner;
-address public terra0adress;
-uint block_time;
+address public owner = msg.sender;
+address public terra0adress = msg.sender;
 bool onetime = true;
+uint256 public contractinit_time = now;
+uint256 public age_of_the_tree;
+uint256 public value = 0;
+uint256 public startprice = 853608000000000000;
+uint256 factor2 = 110079510;
 
-function owned(){
-owner = this;
-terra0adress = msg.sender;
+
+modifier onlyterra0 {
+    if (msg.sender != terra0adress)
+        throw;
+    _;
 }
+
+function changestartvalues(uint256 startpricenew, uint256 factor2new ) onlyterra0{
+  startprice = startpricenew;
+  factor2 = factor2new;
+}
+/*function owned(){
+owner = msg.sender;
+terra0adress = msg.sender;
+= 853608000000000000;
+= 110079510;
+sapling2.changestartvalues("601608000000000000","113099510")
+}*/
 
 function transferOwnership(address newowner)internal{
 owner = newowner;
@@ -50,11 +66,9 @@ transferOwnership(msg.sender);
 }
 
 function calculatevalue(){
-  age_of_the_tree =  ((age_of_the_tree - now)*uint(-1))  * 1 minutes;
-  //value =
-  //return age_of_the_tree;
-  //uint new_time = last_block_number
-  //last_block_number + ((future_time - time_now) / block_time)
+  age_of_the_tree = now - contractinit_time;
+  uint256 calval = age_of_the_tree * factor2;
+  value = startprice + calval;
 }
 
 //web3.eth
