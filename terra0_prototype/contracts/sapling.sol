@@ -26,13 +26,7 @@ function changestartvalues(uint256 startpricenew, uint256 factor2new ) onlyterra
   startprice = startpricenew;
   factor2 = factor2new;
 }
-/*function owned(){
-owner = msg.sender;
-terra0adress = msg.sender;
-= 853608000000000000;
-= 110079510;
-sapling2.changestartvalues("601608000000000000","113099510")
-}*/
+
 
 function transferOwnership(address newowner)internal{
 owner = newowner;
