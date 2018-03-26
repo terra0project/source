@@ -12,9 +12,7 @@ contract testreg is ERC721 {
   event Approval(address owner, address approved, uint256 tokenId);
 
   event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
-    /// @dev This emits when an operator is enabled or disabled for an owner.
-    ///  The operator can manage all NFTs of the owner.
-    // event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved); ??
+
 
   struct TokenStruct {
     string BCHTransactionid;
@@ -89,8 +87,8 @@ function balanceOf(address _owner) external view returns (uint256 balance){
     }
 
 function approve(address _approved, uint256 _tokenId) external payable{
-    require (TokenId[_tokenId].isEntity== true);   //entity exists and is tracked
-    require(msg.sender == TokenIdtoadress[_tokenId]);
+    require (TokenId[_tokenId].isEntity== true);   //entity exists and is tracked // OwnerToOperator[[TokenIdtoadress[_tokenId]]][msg.sender]
+    require(msg.sender == TokenIdtoadress[_tokenId] || OwnerToOperator[TokenIdtoadress[_tokenId]][msg.sender]  == true );
     /// require(msg.sender != _to); Why?
 
     if (_getApproved(_tokenId) != address(0) || _approved != address(0)) {
@@ -102,7 +100,6 @@ function approve(address _approved, uint256 _tokenId) external payable{
 ///@dev Throws unless `msg.sender` is the current NFT owner. SUPER WEIRD
 
 function setApprovalForAll(address _operator, bool _approved) external{
-    //require(TokenIdToApprovedAddress[_tokenId] == msg.sender);
     for (uint i = 0; i < ListofUniqueTokenIds[msg.sender].length; i++){
         if (TokenIdtoadress[ListofUniqueTokenIds[msg.sender][i]] == TokenIdToApprovedAddress[i]){
             OwnerToOperator[TokenIdToApprovedAddress[i]][_operator] == _approved;
@@ -115,10 +112,7 @@ function isApprovedForAll(address _owner, address _operator) external view retur
     return OwnerToOperator[_owner][_operator];
 }
 
-    /// @notice Get the approved address for a single NFT
-    /// @dev Throws if `_tokenId` is not a valid NFT
-    /// @param _tokenId The NFT to find the approved address for
-    /// @return The approved address for this NFT, or the zero address if there is none
+
 
 function getApproved(uint256 _tokenId) external view returns (address){
     require (TokenId[_tokenId].isEntity== true);
@@ -161,11 +155,11 @@ function symbol() external pure returns (string _symbol){
 }
 
 function tokenURI(uint256 _tokenId) external view returns (string){
-    return TokenId[_tokenId].BCHTransactionid ;
+    return TokenId[_tokenId].BCHTransactionid; 
 }
 
 /// ERC721TokenReceiver Needs to be implemented as well as save tranfer
-/// Mint function
+/// Mint function needs ACL
 
 function Mint(address entityAddress, string entityData) public returns(uint256 _UniqueID) {
     uint256 UniqueID = numTokensTotal +1 ;
@@ -176,38 +170,11 @@ function Mint(address entityAddress, string entityData) public returns(uint256 _
     return UniqueID;
     }
 
-//// Safe Transfer Methods
+//// Safe Transfer Methods not impleneted yet
 
 function isContract(address addr) internal view returns (bool) {
   uint size;
   assembly { size := extcodesize(addr) }
   return size > 0;
 }
-
-/* function safeTransferFrom(address _from, address _to, uint256 _tokenId) external payable{
-   require (TokenId[_tokenId].isEntity== true);
-   require(TokenIdToApprovedAddress[_tokenId] == msg.sender);
-   require(TokenIdtoadress[_tokenId] == _from);
-   require(_to != address(0));
-
-   transferownership(_from, _to, _tokenId);
-   //if (isContract(address _to) == true){
-
-   //}
-   Approval(_from, 0, _tokenId);
-   Transfer(_from, _to, _tokenId);
-   }
-
-
-function callcontract(address _to,uint256 _tokenId, bytes data )internal returns(bytes4){
-   address watch_addr  = _to;
-   bytes4 backdata = watch_addr.call(bytes4(sha3("onERC721Received(address,uint256,bytes)")), this, _tokenId, data);
-   return backdata;
-}
-
-
-function onERC721Received(address _from, uint256 _tokenId, bytes data) external returns(bytes4){
-   return bytes4(keccak256(_from,_tokenId,data));
-} */
-
 }
