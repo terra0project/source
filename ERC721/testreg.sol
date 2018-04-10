@@ -2,7 +2,7 @@ pragma solidity ^0.4.11;
 import './SaveMath.sol';
 import './ERC721.sol';
 
-contract testreg is ERC721 {
+contract testreg is ERC721, ERC721Metadata  {
 
   using SafeMath for uint256;
 
@@ -30,7 +30,8 @@ contract testreg is ERC721 {
 
   mapping(uint256 => address) internal TokenIdToApprovedAddress;
 
-  mapping(address => mapping(address => bool)) internal OwnerToOperator;
+  mapping (address => mapping(address => bool)) internal OwnerToOperator;
+
 
 
 function _writedata(address entityAddress, string entityData,uint256 UniqueID ) public{
@@ -39,14 +40,6 @@ function _writedata(address entityAddress, string entityData,uint256 UniqueID ) 
     TokenIdtoadress[UniqueID]=entityAddress;
     }
 
-function newEntity(address entityAddress, string entityData) public returns(uint256 _UniqueID) {
-    uint256 UniqueID = numTokensTotal.add(1) ;  ///uint256 UniqueID = numTokensTotal +1
-    //if(isEntity(UniqueID)) revert();
-    _writeownership(entityAddress,UniqueID);
-    _writedata(entityAddress,entityData,UniqueID);
-    numTokensTotal= numTokensTotal.add(1);
-    return UniqueID;
-    }
 
 function _writeownership (address entityAddress,uint256 UniqueID ) public {
     ListofUniqueTokenIds[entityAddress].push(UniqueID);
@@ -76,7 +69,7 @@ function balanceOf(address _owner) external view returns (uint256 balance){
 
  function transferFrom(address _from, address _to, uint256 _tokenId) external payable{
     require (TokenId[_tokenId].isEntity== true);
-    require(TokenIdToApprovedAddress[_tokenId] == msg.sender);
+    require(TokenIdToApprovedAddress[_tokenId] == msg.sender || OwnerToOperator[TokenIdtoadress[_tokenId]][msg.sender]  == true ); /// || TokenIdToApprovedAddress[_tokenId] == address(this) );    /// its dangerous, probally not ERC721 conform
     require(TokenIdtoadress[_tokenId] == _from);
     require(_to != address(0));
 
@@ -86,10 +79,10 @@ function balanceOf(address _owner) external view returns (uint256 balance){
     Transfer(_from, _to, _tokenId);
     }
 
+
 function approve(address _approved, uint256 _tokenId) external payable{
     require (TokenId[_tokenId].isEntity== true);   //entity exists and is tracked // OwnerToOperator[[TokenIdtoadress[_tokenId]]][msg.sender]
-    require(msg.sender == TokenIdtoadress[_tokenId] || OwnerToOperator[TokenIdtoadress[_tokenId]][msg.sender]  == true );
-    /// require(msg.sender != _to); Why?
+    require(msg.sender == TokenIdtoadress[_tokenId] || OwnerToOperator[TokenIdtoadress[_tokenId]][msg.sender]  == true ); ////// // || msg.sender == address(this)  );  //its dangerous, probally not ERC721 conform
 
     if (_getApproved(_tokenId) != address(0) || _approved != address(0)) {
             _approve(_approved, _tokenId);
@@ -97,21 +90,17 @@ function approve(address _approved, uint256 _tokenId) external payable{
         }
 }
 
-///@dev Throws unless `msg.sender` is the current NFT owner. SUPER WEIRD
 
-function setApprovalForAll(address _operator, bool _approved) external{
-    for (uint i = 0; i < ListofUniqueTokenIds[msg.sender].length; i++){
-        if (TokenIdtoadress[ListofUniqueTokenIds[msg.sender][i]] == TokenIdToApprovedAddress[i]){
-            OwnerToOperator[TokenIdToApprovedAddress[i]][_operator] == _approved;
-        }
-    }
+
+function setApprovalForAll(address _to, bool _approved) external {
+    require(_to != msg.sender);
+    OwnerToOperator[msg.sender][_to] = _approved;
 }
 
 
 function isApprovedForAll(address _owner, address _operator) external view returns (bool){
     return OwnerToOperator[_owner][_operator];
 }
-
 
 
 function getApproved(uint256 _tokenId) external view returns (address){
@@ -155,26 +144,27 @@ function symbol() external pure returns (string _symbol){
 }
 
 function tokenURI(uint256 _tokenId) external view returns (string){
-    return TokenId[_tokenId].BCHTransactionid; 
+    return TokenId[_tokenId].BCHTransactionid ;
 }
 
 /// ERC721TokenReceiver Needs to be implemented as well as save tranfer
-/// Mint function needs ACL
+/// Mint function
 
 function Mint(address entityAddress, string entityData) public returns(uint256 _UniqueID) {
-    uint256 UniqueID = numTokensTotal +1 ;
+    uint256 UniqueID = numTokensTotal.add(1) ;
     //if(isEntity(UniqueID)) revert();
     _writeownership(entityAddress,UniqueID);
     _writedata(entityAddress,entityData,UniqueID);
-    numTokensTotal= numTokensTotal +1;
+    numTokensTotal= numTokensTotal.add(1);
     return UniqueID;
     }
 
-//// Safe Transfer Methods not impleneted yet
+//// Safe Transfer Methods
 
 function isContract(address addr) internal view returns (bool) {
   uint size;
   assembly { size := extcodesize(addr) }
   return size > 0;
 }
+
 }
