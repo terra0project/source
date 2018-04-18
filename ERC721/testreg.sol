@@ -17,7 +17,9 @@ contract testreg is ERC721, ERC721Metadata  {
   struct TokenStruct {
     string BCHTransactionid;
     bool isEntity;
-    bool verified;
+    string health;
+    string blooming;
+    string height;
   }
 
   mapping (uint256 => TokenStruct) TokenId;
