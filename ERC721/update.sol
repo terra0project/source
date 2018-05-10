@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.23;
 import './SaveMath.sol';
 import './testreg.sol';
 import './strings.sol';
@@ -15,6 +15,6 @@ contract update is testreg{
     TokenId[_tokenId].health = s.split(".".toSlice()).toString();  // part and return value is "google"
     TokenId[_tokenId].blooming = s.split(".".toSlice()).toString();
 
-    UpdateToken(_tokenId, state);
+    emit UpdateToken(_tokenId, state);
     }
 }

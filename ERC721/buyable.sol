@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.23;
 import './update.sol';
 
 // All functions will only work if user verified contract as operator before:
@@ -17,13 +17,13 @@ contract buyable is update {
     function set_price_and_sell(uint256 UniqueID,uint256 Price) external payable returns (address){
     TokenIdtoprice[UniqueID] = Price;
     this.approve(address(this), UniqueID);
-    Set_price_and_sell(UniqueID, Price);
+    emit Set_price_and_sell(UniqueID, Price);
     }
 
     function stop_sell(uint256 UniqueID) external payable{
     require(TokenIdtoadress[UniqueID] == msg.sender );
     _clearTokenApproval(UniqueID);
-    Stop_sell(UniqueID);
+    emit Stop_sell(UniqueID);
     }
 
     function buy(uint256 UniqueID)external payable{

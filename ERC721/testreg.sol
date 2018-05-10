@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.23;
 import './SaveMath.sol';
 import './ERC721.sol';
 
@@ -77,8 +77,8 @@ function balanceOf(address _owner) external view returns (uint256 balance){
 
     transferownership(_from, _to, _tokenId);
 
-    Approval(_from, 0, _tokenId);
-    Transfer(_from, _to, _tokenId);
+    emit Approval(_from, 0, _tokenId);
+    emit Transfer(_from, _to, _tokenId);
     }
 
 
@@ -88,7 +88,7 @@ function approve(address _approved, uint256 _tokenId) external payable{
 
     if (_getApproved(_tokenId) != address(0) || _approved != address(0)) {
             _approve(_approved, _tokenId);
-            Approval(msg.sender, _approved, _tokenId);
+            emit Approval(msg.sender, _approved, _tokenId);
         }
 }
 
@@ -162,11 +162,5 @@ function Mint(address entityAddress, string entityData) public returns(uint256 _
     }
 
 //// Safe Transfer Methods
-
-function isContract(address addr) internal view returns (bool) {
-  uint size;
-  assembly { size := extcodesize(addr) }
-  return size > 0;
-}
 
 }
