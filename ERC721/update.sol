@@ -1,5 +1,5 @@
 pragma solidity ^0.4.23;
-import './SaveMath.sol';
+import './SafeMath.sol';
 import './testreg.sol';
 import './strings.sol';
 
