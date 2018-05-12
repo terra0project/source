@@ -7,12 +7,18 @@ import './update.sol';
 
 contract buyable is update {
 
+    address BLOOMING_POOL_ADDRESS;
+    address INFRASTRUCTURE_POOL_ADDRESS;
     uint blooming_fee = 2;
     mapping (uint256 => uint256) TokenIdtoprice;
 
     event Set_price_and_sell(uint256 tokenId, uint256 Price);
     event Stop_sell(uint256 tokenId);
 
+    constructor(address _blooming_address, address _infrastructure_address){
+        BLOOMING_POOL_ADDRESS = _blooming_address;
+        INFRASTRUCTURE_POOL_ADDRESS = _infrastructure_address;
+    }
 
     function set_price_and_sell(uint256 UniqueID,uint256 Price) external payable returns (address){
     TokenIdtoprice[UniqueID] = Price;
@@ -28,8 +34,12 @@ contract buyable is update {
 
     function buy(uint256 UniqueID)external payable{
     address _to =  msg.sender;
-    /// add money stuff here :)
+    uint _total = msg.value;
+    uint _blooming = (_total / 20);
+    uint _infrastructure = (_blooming / 20);
     this.transferFrom(TokenIdtoadress[UniqueID], _to, UniqueID);
+    BLOOMING_POOL_ADDRESS.transfer(_blooming);
+    INFRASTRUCTURE_POOL_ADDRESS.transfer(_infrastructure);
     }
 
     function get_token_data(uint256 _tokenId) external view returns(string _health,string _height, string _blooming,uint256 _price, bool _buyable ){
