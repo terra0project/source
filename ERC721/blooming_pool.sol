@@ -57,4 +57,8 @@ contract blooming_pool is SplitPayment, buyable {
        return keccak256(a) == keccak256(b);
    }
 
+   function getBalance() returns (uint){
+	   return this.balance;
+   }
+
 }
