@@ -12,25 +12,26 @@ import './buyable.sol';
 
 contract blooming_pool is SplitPayment, buyable {
 
-	/// @dev needs some kind of 'onlyOracle' modifier?
-	function oracle_call() {
-		// calls check_blooming()...
-		// ...iterates over payees array and calls payout()
-		// ...calls resetShares()
-	}
+	function oracle_call() /*modifier necessary*/ {
+		check_blooming();
+		for (uint i;i<payees.length;i++){
+			payees[i] = _to;
+			payout(_to);
+		}
+		reset_shares();
+		}
 
-	function check_blooming() internal returns() {
-		// get all tokenIDs & store in uint[] named 'tokenIDs';?
-		uint i;
-		for (i=0;i<tokenIDs.length;i++){
-			if (TokenId[_tokenId].blooming == true) {
-				addPayee(TokenIdtoadress[TokenId],1);
+	function check_blooming() internal {
+		for(uint i;i<100;i++) {
+			if (TokenId[i].blooming == 1) {
+				addPayee(TokenIdtoadress[i],1);
 			}
 		}
 	}
 
-	/// @dev (mostly) recycled code from claim() function in SplitPayment.sol which has been removed
-	function payout(address _to, uint _value) internal returns(bool){
+	/// @dev (mostly) recycled code from claim() function in SplitPayment.sol which has been commented out
+	function payout(address _to) internal returns(bool){
+		address payee = _to;
 		require(shares[payee] > 0);
 
     uint256 totalReceived = address(this).balance.add(totalReleased);
