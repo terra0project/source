@@ -1,71 +1,60 @@
 pragma solidity ^0.4.23;
-import './update.sol';
+import './SplitPayment.sol';
+import './buyable.sol';
 
-// All functions will only work if user verified contract as operator before:
-// this can be done:
-// function setApprovalForAll("Adress_of_contract", "True")
+/**
+@title blooming_pool (abstraction layer atop certain functions from Open Zepplin's 'Split Payment'
+	contract)
+@dev Contract that pays funds owed to multiple payees who own tokens representing
+	blooming flowers. Triggered by oracle every 24 hours. Pays out ETH according to proportion of
+	of payee's held shares before resetting share count to 0.
+*/
 
-contract buyable is update {
+contract blooming_pool is SplitPayment, buyable {
 
-    address BLOOMING_POOL_ADDRESS;
-    address INFRASTRUCTURE_POOL_ADDRESS;
-    uint blooming_fee = 2;
-    mapping (uint256 => uint256) TokenIdtoprice;
+	function oracle_call() /*modifier necessary*/ {
+		check_blooming();
+		for (uint i;i<payees.length;i++){
+			address to = payees[i];
+			payout(to);
+		}
+		reset_shares();
+		}
 
-    event Set_price_and_sell(uint256 tokenId, uint256 Price);
-    event Stop_sell(uint256 tokenId);
+	function check_blooming() internal {
+		for(uint i;i<101;i++) {
+			if (compareStrings(TokenId[i].blooming, "1") == true) {
+				addPayee(TokenIdtoadress[i],1);
+			}
+		}
+	}
 
-    constructor(address _blooming_address, address _infrastructure_address){
-        BLOOMING_POOL_ADDRESS = _blooming_address;
-        INFRASTRUCTURE_POOL_ADDRESS = _infrastructure_address;
-    }
+	/// @dev (mostly) recycled code from claim() function in SplitPayment.sol which has been commented out
+	function payout(address to) internal returns(bool){
+		address payee = to;
+		require(shares[payee] > 0);
 
-    function set_price_and_sell(uint256 UniqueID,uint256 Price) external payable returns (address){
-    TokenIdtoprice[UniqueID] = Price;
-    this.approve(address(this), UniqueID);
-    emit Set_price_and_sell(UniqueID, Price);
-    }
+    uint256 totalReceived = address(this).balance.add(totalReleased);
+    uint256 payment = totalReceived.mul(shares[payee]).div(totalShares).sub(released[payee]);
 
-    function stop_sell(uint256 UniqueID) external payable{
-    require(TokenIdtoadress[UniqueID] == msg.sender );
-    _clearTokenApproval(UniqueID);
-    emit Stop_sell(UniqueID);
-    }
+    require(payment != 0);
+    require(address(this).balance >= payment);
 
-    function buy(uint256 UniqueID)external payable{
-    address _to =  msg.sender;
-    uint _total = msg.value;
-    uint _blooming = (_total / 20);
-    uint _infrastructure = (_blooming / 20);
-    this.transferFrom(TokenIdtoadress[UniqueID], _to, UniqueID);
-    BLOOMING_POOL_ADDRESS.transfer(_blooming);
-    INFRASTRUCTURE_POOL_ADDRESS.transfer(_infrastructure);
-    }
+    released[payee] = released[payee].add(payment);
+    totalReleased = totalReleased.add(payment);
 
-    function get_token_data(uint256 _tokenId) external view returns(string _health,string _height, string _blooming,uint256 _price, bool _buyable ){
-    _health =  TokenId[_tokenId].health;
-    _height = TokenId[_tokenId].height;
-    _blooming = TokenId[_tokenId].blooming;
-    _price = TokenIdtoprice[_tokenId];
-    if (TokenIdToApprovedAddress[_tokenId] != address(0)){
-        _buyable = true;
-    }
-}
+    payee.transfer(payment);
+	}
 
-    function get_token_data_buyable(uint256 _tokenId) external view returns(bool _buyable ){
-    if (TokenIdToApprovedAddress[_tokenId] != address(0)){
-        _buyable = true;
-    }
-    }
+	/// @dev this function shouldn't be necessary after payout loop in oracle_call but just in case..
+	function reset_shares() internal{
+		if (totalShares < 0){
+			totalShares = 0;
+		}
+	}
 
-    function get_all_sellable_token()external view returns(bytes1[100] list_of_available){
-    for(uint i;i<100;i++) {
-          if (TokenIdToApprovedAddress[i-1] != address(0)){
-            list_of_available[i] = 0x01;
-          }else{
-            list_of_available[i] = 0x00;
-          }
-        }
-    }
+	function compareStrings (string a, string b) view returns (bool){
+       return keccak256(a) == keccak256(b);
+   }
 
 }
