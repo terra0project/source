@@ -58,7 +58,7 @@ contract buyable is update {
     }
     }
 
-    function get_all_sellable_token()external view returns(bytes1[100] list_of_available){
+    function get_all_sellable_token()external view returns(bytes1[101] list_of_available){
     for(uint i;i<101;i++) {
           if (TokenIdToApprovedAddress[i-1] != address(0)){
             list_of_available[i] = 0x01;

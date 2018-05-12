@@ -139,7 +139,7 @@ function _clearTokenApproval(uint256 _tokenId)internal{
 /// pls read https://solidity.readthedocs.io/en/latest/contracts.html#abstract-contracts
 
 function name() external pure returns (string _name){
-    return "tulip0";
+    return "flowertokens_test";
 }
 
 function symbol() external pure returns (string _symbol){
