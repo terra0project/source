@@ -9,7 +9,7 @@ contract update is testreg{
 
     event UpdateToken(uint256 _tokenId, string state);  /// "0,05.good.0"   1.Height  2.Health  3. Boolean Blooming
 
-    function updatetoken(uint256 _tokenId, string state) external{
+    function updatetoken(uint256 _tokenId, string state) external check(1){
     var s = state.toSlice();
     TokenId[_tokenId].height = s.split(".".toSlice()).toString();   // part and return value is "www"
     TokenId[_tokenId].health = s.split(".".toSlice()).toString();  // part and return value is "google"

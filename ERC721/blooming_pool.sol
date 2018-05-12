@@ -12,7 +12,7 @@ import './buyable.sol';
 
 contract blooming_pool is SplitPayment, buyable {
 
-	function oracle_call() /*modifier necessary*/ {
+	function oracle_call () external check(1){
 		check_blooming();
 		for (uint i;i<payees.length;i++){
 			address to = payees[i];

@@ -1,8 +1,9 @@
 pragma solidity ^0.4.23;
 import './SafeMath.sol';
 import './ERC721.sol';
+import './acl.sol';
 
-contract testreg is ERC721, ERC721Metadata  {
+contract testreg is ERC721, ERC721Metadata, acl  {
 
   using SafeMath for uint256;
 
@@ -152,9 +153,8 @@ function tokenURI(uint256 _tokenId) external view returns (string){
 /// ERC721TokenReceiver Needs to be implemented as well as save tranfer
 /// Mint function
 
-function Mint(address entityAddress, string entityData) public returns(uint256 _UniqueID) {
+function Mint(address entityAddress, string entityData) external check(2) returns (uint256 _UniqueID) {
     uint256 UniqueID = numTokensTotal.add(1) ;
-    //if(isEntity(UniqueID)) revert();
     _writeownership(entityAddress,UniqueID);
     _writedata(entityAddress,entityData,UniqueID);
     numTokensTotal= numTokensTotal.add(1);
