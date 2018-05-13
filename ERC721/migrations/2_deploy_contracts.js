@@ -13,7 +13,7 @@ module.exports = function(deployer) {
 	}).then(function(){
 		return deployer.deploy(update)
 	}).then(function(bloomingPool){
-		return deployer.deploy(buyable, web3.eth.accounts[5],bloomingPool.address)
+		return deployer.deploy(buyable, web3.eth.accounts[6],bloomingPool.address)
 	})
 }
 
