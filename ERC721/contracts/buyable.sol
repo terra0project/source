@@ -3,8 +3,6 @@ import './update.sol';
 
 contract buyable is update {
 
-    address BLOOMING_POOL_ADDRESS;
-    address INFRASTRUCTURE_POOL_ADDRESS;
     uint blooming_fee = 2;
     mapping (uint256 => uint256) TokenIdtoprice;
 
@@ -16,7 +14,7 @@ contract buyable is update {
         BLOOMING_POOL_ADDRESS = _blooming_address;
     }
 
-    function set_price_and_sell(uint256 UniqueID,uint256 Price) external payable returns (address){
+    function set_price_and_sell(uint256 UniqueID,uint256 Price) external payable{
     TokenIdtoprice[UniqueID] = Price;
     approve(address(this), UniqueID);
     emit Set_price_and_sell(UniqueID, Price);
@@ -61,7 +59,7 @@ function buy(uint256 UniqueID)external payable{
     }
     }
 
-    function get_all_sellable_token()external view returns(bytes1[101] list_of_available){
+    function get_all_sellable_token()external view returns(bytes1[100] list_of_available){
     for(uint i;i<101;i++) {
           if (tokenOwner[i-1] != address(0)){
             list_of_available[i] = 0x01;
