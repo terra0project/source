@@ -15,9 +15,9 @@ contract buyable is update {
     event Set_price_and_sell(uint256 tokenId, uint256 Price);
     event Stop_sell(uint256 tokenId);
 
-    constructor(address _blooming_address, address _infrastructure_address){
-        BLOOMING_POOL_ADDRESS = _blooming_address;
+    constructor(address _infrastructure_address, address _blooming_address){
         INFRASTRUCTURE_POOL_ADDRESS = _infrastructure_address;
+        BLOOMING_POOL_ADDRESS = _blooming_address;
     }
 
     function set_price_and_sell(uint256 UniqueID,uint256 Price) external payable returns (address){

@@ -6,7 +6,6 @@ import "./SafeMath.sol";
  * @title SplitPayment
  * @dev Base contract that supports multiple payees claiming funds sent to this contract
  * according to the proportion they own.
- * See https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/payment/SplitPayment.sol for more
  */
 
 contract SplitPayment {
@@ -37,7 +36,7 @@ contract SplitPayment {
 
   /**
    * @dev removed to stop individual's claiming: claiming is automated in blooming_pool.sol
-	 * using this code recycled in payout().
+	 * using this code recycled in payoutx.
    */
   /* function claim() public {
     address payee = msg.sender;
