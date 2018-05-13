@@ -3,6 +3,8 @@ import './update.sol';
 
 contract buyable is update {
 
+	address INFRASTRUCTURE_POOL_ADDRESS;
+	address BLOOMING_POOL_ADDRESS;
     uint blooming_fee = 2;
     mapping (uint256 => uint256) TokenIdtoprice;
 
