@@ -35,7 +35,7 @@ contract buyable is update {
 	function buy(uint256 UniqueID)external payable{
 		    address _to =  msg.sender;
 		    uint _total = msg.value;
-			if (_total !=TokenIdtoprice[UniqueID]){
+			if (_total !=TokenIdtoprice[UniqueID].toWei()){
 				revert();
 			} else {
 				uint _blooming = (_total / 20);

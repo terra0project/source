@@ -55,13 +55,13 @@ acl.deployed().then(function(instance){
 }).then(function(){
 	console.log(`tokens owned by coinbase: ${balance}`)
 }).then(function(){
-	buyable.set_price_and_sell(3,100,{from:web3.eth.accounts[0]})
+	buyable.set_price_and_sell(3,web3.toWei(100,"ether")),{from:web3.eth.accounts[0]})
 	console.log(`coinbase approved token 3 for selling`)
 }).then(function(){
 	testreg.setApprovalForAll(testreg.address,true,{from:web3.eth.accounts[1]})
 	console.log("called setApprovalForAll from web3.eth.accounts[1]")
 }).then(function(){
-	buyable.buy(3,{from:web3.eth.accounts[1], value: 100})
+	buyable.buy(3,{from:web3.eth.accounts[1], value:web3.toWei(100,"ether")})
 }).then(function(){
 	return testreg.balanceOf(web3.eth.accounts[0])
 	console.log("accounts[1] bought flowerToken 3")
