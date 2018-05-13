@@ -1,4 +1,4 @@
-pragma solidity 0.4.18;
+pragma solidity ^0.4.23;
 
 //This is the first version of a simple ACL / Permission Management System
 //It might differentiate from other Permission Management Systems and therefore be more restrictive in the following points:
@@ -10,56 +10,27 @@ pragma solidity 0.4.18;
 contract acl{
 
     enum Role {
-        ANON,
         USER,
         ORACLE,
-        ROOT
+        ADMIN
     }
 
-    mapping(address => mapping (address=> Role)) permissions;
+    mapping (address=> Role) permissions;
 
-    function acl() internal {
-        permissions[this][msg.sender] = Role(3);
+    constructor(){
+    permissions[msg.sender] = Role(2);
     }
 
-
-    function setRole(
-        uint8 rolevalue,
-        address app,
-        address entity
-    ) check(3) external
-    {
-      require(uint8(Role.ROOT) >= rolevalue);
-      permissions[app][entity] = Role(rolevalue);
+    function setRole(uint8 rolevalue,address entity)external check(2){
+    permissions[entity] = Role(rolevalue);
     }
 
-
-    function getRole(
-        address app,
-        address entity
-    )internal returns(Role)
-    {
-        return permissions[app][entity];
+    function getRole(address entity)public view returns(Role){
+        return permissions[entity];
     }
-
-
-   function getPermission(
-       uint8 role,
-       address app,
-       address entity
-    )public returns(bool actual_Permission)
-    {
-    if(uint8(getRole(app,entity)) == role )
-    {
-        return true;
-    } else {
-        return false;
-    }
-    }
-
 
     modifier check(uint8 role) {
-         require(uint8(getRole(this,msg.sender)) == role);
+         require(uint8(getRole(msg.sender)) == role);
         _;
     }
 }

@@ -1,4 +1,5 @@
 pragma solidity ^0.4.23;
+
 import './SafeMath.sol';
 import './ERC721.sol';
 import './acl.sol';

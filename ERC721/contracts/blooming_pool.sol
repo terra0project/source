@@ -1,20 +1,41 @@
 pragma solidity ^0.4.23;
-import './SplitPayment.sol';
-import './buyable.sol';
+import './testreg.sol';
+import './SafeMath.sol';
 
-/**
-@title blooming_pool (abstraction layer atop certain functions from Open Zepplin's 'Split Payment'
-	contract)
-@dev Contract that pays funds owed to multiple payees who own tokens representing
-	blooming flowers. Triggered by oracle every 24 hours. Pays out ETH according to proportion of
-	of payee's held shares before resetting share count to 0.
-*/
+/// @dev altered version of Open Zepplin's 'SplitPayment' contract
 
-contract blooming_pool is SplitPayment, buyable {
+contract bloomingPool is testreg {
 
-	function oracle_call () external check(1){
+    using SafeMath for uint256;
+
+    uint256 public totalShares = 0;
+    uint256 public totalReleased = 0;
+
+    mapping(address => uint256) public shares;
+    mapping(address => uint256) public released;
+    address[] public payees;
+
+    constructor(address[] _payees, uint256[] _shares) public payable {
+        require(_payees.length == _shares.length);
+
+        for (uint256 i = 0; i < _payees.length; i++) {
+          addPayee(_payees[i], _shares[i]);
+        }
+    }
+
+    function addPayee(address _payee, uint256 _shares) internal {
+        require(_payee != address(0));
+        require(_shares > 0);
+        require(shares[_payee] == 0);
+
+        payees.push(_payee);
+        shares[_payee] = _shares;
+        totalShares = totalShares.add(_shares);
+    }
+
+	function oracle_call() external check(1) {
 		check_blooming();
-		for (uint i;i<payees.length;i++){
+		for (uint i = 0;i<payees.length;i++){
 			address to = payees[i];
 			payout(to);
 		}
@@ -24,41 +45,35 @@ contract blooming_pool is SplitPayment, buyable {
 	function check_blooming() internal {
 		for(uint i;i<101;i++) {
 			if (compareStrings(TokenId[i].blooming, "1") == true) {
-				addPayee(TokenIdtoadress[i],1);
+				addPayee(tokenOwner[i],1);
 			}
 		}
 	}
 
-	/// @dev (mostly) recycled code from claim() function in SplitPayment.sol which has been commented out
 	function payout(address to) internal returns(bool){
 		address payee = to;
 		require(shares[payee] > 0);
 
-    uint256 totalReceived = address(this).balance.add(totalReleased);
-    uint256 payment = totalReceived.mul(shares[payee]).div(totalShares).sub(released[payee]);
+        uint256 totalReceived = address(this).balance.add(totalReleased);
+        uint256 payment = totalReceived.mul(shares[payee]).div(totalShares).sub(released[payee]);
 
-    require(payment != 0);
-    require(address(this).balance >= payment);
+        require(payment != 0);
+        require(address(this).balance >= payment);
 
-    released[payee] = released[payee].add(payment);
-    totalReleased = totalReleased.add(payment);
+        released[payee] = released[payee].add(payment);
+        totalReleased = totalReleased.add(payment);
 
-    payee.transfer(payment);
+        payee.transfer(payment);
 	}
 
-	/// @dev this function shouldn't be necessary after payout loop in oracle_call but just in case..
-	function reset_shares() internal{
+	function reset_shares() internal {
 		if (totalShares < 0){
 			totalShares = 0;
 		}
 	}
 
-	function compareStrings (string a, string b) view returns (bool){
-       return keccak256(a) == keccak256(b);
-   }
-
-   function getBalance() returns (uint){
-	   return this.balance;
-   }
+	function compareStrings (string a, string b) internal returns(bool){
+        return keccak256(a) == keccak256(b);
+    }
 
 }
