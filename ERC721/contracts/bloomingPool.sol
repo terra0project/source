@@ -35,7 +35,7 @@ contract bloomingPool is testreg {
 
 	function oracle_call() external check(1) {
 		check_blooming();
-		for (uint i;i<payees.length;i++){
+		for (uint i=0;i<payees.length;i++){
 			address to = payees[i];
 			payout(to);
 		}
@@ -45,7 +45,7 @@ contract bloomingPool is testreg {
 	function check_blooming() internal {
 		for(uint i;i<101;i++) {
 			if (compareStrings(TokenId[i].blooming, "1") == true) {
-				addPayee(TokenIdtoadress[i],1);
+				addPayee(tokenOwner[i],1);
 			}
 		}
 	}
