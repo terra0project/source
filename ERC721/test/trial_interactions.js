@@ -2,13 +2,15 @@ var acl = artifacts.require("acl");
 var bloomingPool = artifacts.require("bloomingPool");
 var buyable = artifacts.require("buyable");
 var testreg = artifacts.require("testreg");
-var update= artifacts.require("update");
+var update = artifacts.require("update");
+var erc721 = artifacts.require("ERC721BasicToken.sol");
 
 acl.setProvider(web3.currentProvider);
 bloomingPool.setProvider(web3.currentProvider);
 buyable.setProvider(web3.currentProvider);
 testreg.setProvider(web3.currentProvider);
 update.setProvider(web3.currentProvider);
+erc721.setProvider(web3.currentProvider);
 
 var acl;
 var bloom;
@@ -16,6 +18,8 @@ var buyable;
 var testreg;
 var update;
 var balance;
+var erc721;
+var returndata;
 
 acl.deployed().then(function(instance){
 	acl = instance;
@@ -36,55 +40,71 @@ acl.deployed().then(function(instance){
 }).then(function(instance){
 	update = instance;
 }).then(function(){
-	console.log(`addresses: bloom_pool: ${bloom.address}acl:${acl.address}buyable: ${buyable.address}testreg: ${testreg.address}update: ${update.address}`)
+	return erc721.deployed()
 }).then(function(instance){
-	console.log(`ROLE of coinbase: ${instance.toNumber()} (ADMIN)...`)
+	erc721 = instance;
+}).then(function(){
+	console.log(`\nbloomingPool: ${bloom.address}\nacl:${acl.address}\nbuyable: ${buyable.address}\ntestreg: ${testreg.address}\nupdate: ${update.address}\nerc721: ${erc721.address}`)
+}).then(function(instance){
+	return acl.getRole(web3.eth.accounts[0],{from:web3.eth.accounts[0]})
+}).then(function(instance){
+	console.log(`\nROLE of coinbase: ${instance.toNumber()} (ADMIN) `)
+}).then(function(){
+	acl.setRole(1,web3.eth.accounts[5])
 }).then(function(instance){
 	return acl.getRole(web3.eth.accounts[5],{from:web3.eth.accounts[0]})
 }).then(function(instance){
 	console.log(`ROLE of web3.eth.accounts[5]: ${instance.toNumber()} (ORACLE) `)
+}).then(function(){ // <-------------------------- change TESTREG to ERC721 from here on ------------------
+	buyable.setApprovalForAll(buyable.address,true)
+	console.log("\nBeginning admin for selling... coinbase approved all")
 }).then(function(){
-	testreg.setApprovalForAll(testreg.address,true,{from:web3.eth.accounts[0]})
-	console.log("Beginning admin for selling... called setApprovalForAll from coinbase")
-}).then(function(){
-	return testreg.balanceOf(web3.eth.accounts[0])
+	return erc721.balanceOf(web3.eth.accounts[0])
 }).then(function(instance){
 	balance = instance.toNumber();
 }).then(function(){
-	console.log(`tokens owned by coinbase: ${balance}`)
+	console.log(`...tokens owned by coinbase: ${balance}`)
 }).then(function(){
-	buyable.set_price_and_sell(3,web3.toWei(100,"ether")),{from:web3.eth.accounts[0]})
-	console.log(`coinbase approved token 3 for selling`)
-}).then(function(){
-	testreg.setApprovalForAll(testreg.address,true,{from:web3.eth.accounts[1]})
-	console.log("called setApprovalForAll from web3.eth.accounts[1]")
-}).then(function(){
-	buyable.buy(3,{from:web3.eth.accounts[1], value:web3.toWei(100,"ether")})
-}).then(function(){
-	return testreg.balanceOf(web3.eth.accounts[0])
-	console.log("accounts[1] bought flowerToken 3")
+	return buyable.isApprovedForAll(web3.eth.accounts[0],buyable.address)
 }).then(function(instance){
-	balance = instance.toNumber();
+	console.log(`...is buyable approved to transfer tokens from accounts[0]? ${instance} `)
 }).then(function(){
-	console.log(`tokens owned by coinbase: ${balance}`)
-}).then(function(){
-	return testreg.balanceOf(web3.eth.accounts[1])
+	return buyable.get_token_data_buyable(1);
 }).then(function(instance){
-	balance = instance.toNumber();
+	returndata = instance;
 }).then(function(){
-	console.log(`tokens owned by web3.eth.accounts[1]: ${balance}`)
+	console.log(`...is token 1 buyable? ${returndata}`)
 }).then(function(){
-	return bloom.balance({from:web3.eth.accounts[0]})
+	return buyable.get_all_sellable_token()
 }).then(function(instance){
-	balance = instance.toNumber();
-}).then(function(){
-	console.log(`balance of bloomingPool: ${balance} ETHER`)
+	console.log(`all sellable tokens: ${instance}`)
 }).then(function(){
 	process.exit()
 }).catch(function(error) {
 	console.log(error);
-});
+})
 
+// .then(function(){
+// 	buyable.buy(3,{from:web3.eth.accounts[1], gas:50000000, value:100});
+// }).then(function(){
+// 	return erc721.balanceOf(web3.eth.accounts[0])
+// }).then(function(instance){
+// 	balance = instance.toNumber();
+// }).then(function(){
+// 	console.log(`tokens owned by coinbase: ${balance}`)
+// }).then(function(){
+// 	return erc721.balanceOf(web3.eth.accounts[1])
+// }).then(function(instance){
+// 	balance = instance.toNumber();
+// }).then(function(){
+// 	console.log(`tokens owned by web3.eth.accounts[1]: ${balance}`)
+// }).then(function(){
+// 	return bloom.balance({from:web3.eth.accounts[0]})
+// }).then(function(instance){
+// 	balance = instance.toNumber();
+// }).then(function(){
+// 	console.log(`balance of bloomingPool: ${balance} ETHER`)
+// })
 
 /*
 acc[0]
