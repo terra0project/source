@@ -16,7 +16,7 @@ contract buyable is update {
         BLOOMING_POOL_ADDRESS = _blooming_address;
     }
 
-    function set_price_and_sell(uint256 UniqueID,uint256 Price) external payable{
+    function set_price_and_sell(uint256 UniqueID,uint256 Price) public payable{
     TokenIdtoprice[UniqueID] = Price;
     approve(address(this), UniqueID);
     emit Set_price_and_sell(UniqueID, Price);
@@ -28,7 +28,7 @@ contract buyable is update {
     emit Stop_sell(UniqueID);
     }
 
-function buy(uint256 UniqueID)external payable{
+function buy(uint256 UniqueID) external payable{
 		    address _to =  msg.sender;
 // 		    uint _total = msg.value;
 // 			if (_total !=TokenIdtoprice[UniqueID]){
@@ -61,7 +61,7 @@ function buy(uint256 UniqueID)external payable{
         }
     }
 
-    function get_all_sellable_token()external view returns(bytes1[101] list_of_available){
+    function get_all_sellable_token() external view returns(bytes1[101] list_of_available){
     uint i;
     for(i=0;i<101;i++) {
           if (tokenOwner[i] != address(0)){

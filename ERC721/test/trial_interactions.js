@@ -44,7 +44,7 @@ acl.deployed().then(function(instance){
 }).then(function(instance){
 	erc721 = instance;
 }).then(function(){
-	console.log(`\nbloomingPool: ${bloom.address}\nacl:${acl.address}\nbuyable: ${buyable.address}\ntestreg: ${testreg.address}\nupdate: ${update.address}\nerc721: ${erc721.address}`)
+	console.log(`\n\nbloomingPool: ${bloom.address}\nacl:${acl.address}\nbuyable: ${buyable.address}\ntestreg: ${testreg.address}\nupdate: ${update.address}\nerc721: ${erc721.address}`)
 }).then(function(instance){
 	return acl.getRole(web3.eth.accounts[0],{from:web3.eth.accounts[0]})
 }).then(function(instance){
@@ -57,7 +57,7 @@ acl.deployed().then(function(instance){
 	console.log(`ROLE of web3.eth.accounts[5]: ${instance.toNumber()} (ORACLE) `)
 }).then(function(){ // <-------------------------- change TESTREG to ERC721 from here on ------------------
 	buyable.setApprovalForAll(buyable.address,true)
-	console.log("\nBeginning admin for selling... coinbase approved all")
+	console.log("\nBeginning token checks before transferals... \n...coinbase approved BUYABLE CONTRACT for transferal of all tokens")
 }).then(function(){
 	return erc721.balanceOf(web3.eth.accounts[0])
 }).then(function(instance){
@@ -67,22 +67,95 @@ acl.deployed().then(function(instance){
 }).then(function(){
 	return buyable.isApprovedForAll(web3.eth.accounts[0],buyable.address)
 }).then(function(instance){
-	console.log(`...is buyable approved to transfer tokens from accounts[0]? ${instance} `)
+	console.log(`...is BUYABLE CONTRACT approved to transfer tokens from coinbase? ${instance.toString().toUpperCase()} `)
 }).then(function(){
 	return buyable.get_token_data_buyable(1);
 }).then(function(instance){
 	returndata = instance;
 }).then(function(){
-	console.log(`...is token 1 buyable? ${returndata}`)
+	console.log(`...is token 1 buyable? ${returndata.toString().toUpperCase()}`)
 }).then(function(){
 	return buyable.get_all_sellable_token()
 }).then(function(instance){
-	console.log(`all sellable tokens: ${instance}`)
+	console.log(`...all sellable tokens: ${instance}`)
 }).then(function(){
-	process.exit()
+	return buyable.get_token_data(1)
+}).then(function(instance){
+	console.log(`...token data for token 1: ${instance}`)
+}).then(function(){
+	return buyable.get_token_data_buyable(1)
+}).then(function(instance){
+	console.log(`... is token 1 buyable? ${instance.toString().toUpperCase()}`)
+}).then(function(){
+	console.log(`\nPreparing token 1 for sale...`)
+}).then(function(){
+	return erc721.ownerOf(1)
+}).then(function(instance){
+	console.log(`owner of token 1: ${instance}`)
+	console.log(`coinbase address: ${web3.eth.accounts[0]}`)
+}).then(function(){
+	return buyable.getApproved(1)
+}).then(function(instance){
+	console.log(`approved address for token 1: ${instance}`)
+}).then(function(){
+	return buyable.isApprovedForAll(web3.eth.accounts[0], buyable.address)
+}).then(function(instance){
+	console.log(`is BUYABLE CONTRACT approved for transferal from coinbase? ${instance.toString().toUpperCase()}`)
+}).then(function(){
+	return buyable.isApprovedForAll(web3.eth.accounts[0],buyable.address)
+}).then(function(instance){
+	console.log(`is BUYABLE CONTRACT approved for transferals from coinbase? ${instance.toString().toUpperCase()}`)
+}).then(function(){
+	buyable.set_price_and_sell(1,100,{from:web3.eth.accounts[0]})
+}).then(function(){
+	return buyable.get_token_data_buyable(1);
+}).then(function(instance){
+	returndata = instance;
+}).then(function(){
+	console.log(`...is token 1 buyable? ${returndata.toString().toUpperCase()}`)
+}).then(function(){
+	return buyable.get_all_sellable_token()
+}).then(function(instance){
+	console.log(`...all sellable tokens: ${instance}`)
+}).then(function(){
+	return buyable.get_token_data(1)
+}).then(function(instance){
+	console.log(`...token data for token 1: ${instance}`)
+}).then(function(){
+	return buyable.get_token_data_buyable(1)
+}).then(function(instance){
+	console.log(`... is token 1 buyable? ${instance.toString().toUpperCase()}`)
 }).catch(function(error) {
 	console.log(error);
 })
+
+// }).then(function(){
+// 	buyable.set_price_and_sell(1,100)
+// 	console.log(`...called set_price_and_sell()`)
+// }).then(function(instance){
+// 	console.log(instance)
+// }).catch(function(error){
+// 	console.log(error)
+// })
+// .then(function(){
+// 	return buyable.get_token_data_buyable(1);
+// }).then(function(instance){
+// 	returndata = instance;
+// }).then(function(){
+// 	console.log(`...is token 1 buyable? ${returndata.toString().toUpperCase()}`)
+// }).then(function(){
+// 	return buyable.get_all_sellable_token()
+// }).then(function(instance){
+// 	console.log(`...all sellable tokens: ${instance}`)
+// }).then(function(){
+// 	return buyable.get_token_data(1)
+// }).then(function(instance){
+// 	console.log(`...token data for token 1: ${instance}`)
+// }).then(function(){
+// 	return buyable.get_token_data_buyable(1)
+// }).then(function(instance){
+// 	console.log(`... is token 1 buyable? ${instance.toString().toUpperCase()}`)
+
 
 // .then(function(){
 // 	buyable.buy(3,{from:web3.eth.accounts[1], gas:50000000, value:100});
