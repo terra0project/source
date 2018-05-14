@@ -38,8 +38,6 @@ acl.deployed().then(function(instance){
 }).then(function(){
 	console.log(`addresses: bloom_pool: ${bloom.address}acl:${acl.address}buyable: ${buyable.address}testreg: ${testreg.address}update: ${update.address}`)
 }).then(function(instance){
-	return acl.getRole(web3.eth.accounts[0],{from:web3.eth.accounts[0]})
-}).then(function(instance){
 	console.log(`ROLE of coinbase: ${instance.toNumber()} (ADMIN)...`)
 }).then(function(instance){
 	return acl.getRole(web3.eth.accounts[5],{from:web3.eth.accounts[0]})

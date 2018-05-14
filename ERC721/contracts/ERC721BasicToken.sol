@@ -8,6 +8,7 @@ import "./acl.sol";
 
 /**
  * @title ERC721 Non-Fungible Token Standard basic implementation
+ * @dev edited verison of Open Zepplin implementation
  * @dev see https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md
  */
 contract ERC721BasicToken is ERC721Basic, acl {
@@ -164,6 +165,7 @@ contract ERC721BasicToken is ERC721Basic, acl {
    * @dev Reverts if the given token ID already exists
    * @param _to The address that will own the minted token
    * @param _tokenId uint256 ID of the token to be minted by the msg.sender
+   * @dev _check(2) checks msg.sender == ADMIN
    */
   function _mint(address _to, uint256 _tokenId) external check(2) {
     require(_to != address(0));

@@ -2,13 +2,15 @@ var acl = artifacts.require("acl");
 var bloomingPool = artifacts.require("bloomingPool");
 var buyable = artifacts.require("buyable");
 var testreg = artifacts.require("testreg");
-var update= artifacts.require("update");
+var update = artifacts.require("update");
+var erc721 = artifacts.require("ERC721BasicToken.sol");
 
 acl.setProvider(web3.currentProvider);
 bloomingPool.setProvider(web3.currentProvider);
 buyable.setProvider(web3.currentProvider);
 testreg.setProvider(web3.currentProvider);
 update.setProvider(web3.currentProvider);
+erc721.setProvider(web3.currentProvider);
 
 var acl;
 var bloom;
@@ -16,6 +18,7 @@ var buyable;
 var testreg;
 var update;
 var balance;
+var erc721;
 
 acl.deployed().then(function(instance){
 	acl = instance;
@@ -41,13 +44,16 @@ acl.deployed().then(function(instance){
 	update = instance;
 	console.log("update deployed properly...")
 }).then(function(){
-	console.log(`\n**** addresses: bloom_pool: ${bloom.address}\nacl:${acl.address}\nbuyable: ${buyable.address}\ntestreg: ${testreg.address}\nupdate: ${update.address} ****`)
+	return erc721.deployed()
+}).then(function(instance){
+	erc721 = instance;
+	console.log("erc721 deployed properly...")
 }).then(function(){
-	testreg.setApprovalForAll(testreg.address,true);
+	console.log(`\nbloomingPool: ${bloom.address}\nacl:${acl.address}\nbuyable: ${buyable.address}\ntestreg: ${testreg.address}\nupdate: ${update.address}\nerc721: ${erc721.address}`)
 }).then(function(){
-	console.log("\n**** beginning minting...")
+	console.log("\nbeginning minting...")
 }).then(function(){
-	return testreg.balanceOf(web3.eth.accounts[0])
+	return erc721.balanceOf(web3.eth.accounts[0])
 }).then(function(instance){
 	balance = instance.toNumber();
 }).then(function(){
@@ -55,18 +61,22 @@ acl.deployed().then(function(instance){
 }).then(function(){
 	var i;
 	for (i = 0; i < 101; i++) {
-		testreg.Mint(web3.eth.accounts[0],"token")
+		erc721._mint(web3.eth.accounts[0],i)
 		console.log(`minted token ${i}`)
 		}
 }).then(function(){
-	return testreg.balanceOf(web3.eth.accounts[0])
+	return erc721.balanceOf(web3.eth.accounts[0])
 }).then(function(instance){
 	balance = instance.toNumber();
 }).then(function(){
-	console.log(`tokens owned by coinbase: ${balance}\n...minting finished ****`)
+	console.log(`...minting finished \ntokens owned by coinbase: ${balance}`)
+}).then(function(instance){
+	return acl.getRole(web3.eth.accounts[0],{from:web3.eth.accounts[0]})
+}).then(function(instance){
+	console.log(`ROLE of coinbase: ${instance.toNumber()} (ADMIN) `)
 }).then(function(){
 	acl.setRole(1,web3.eth.accounts[5])
-	console.log("**** web.eth.accounts[5] ROLE set to ORACLE ****")
+	console.log("ROLE of web.eth.accounts[5]: 1 (ORACLE)")
 }).then(function(){
 	process.exit()
 }).catch(function(error) {
