@@ -39,7 +39,7 @@ function buy(uint256 UniqueID) external payable{
 // 				uint _amount_for_seller = msg.value.sub(_blooming + _infrastructure);
 // 				address _seller = tokenOwner[UniqueID];
 // 				_seller.transfer(_amount_for_seller);
-			    transferFrom(tokenOwner[UniqueID], _to, UniqueID);
+			    this.transferFrom(tokenOwner[UniqueID], _to, UniqueID);
 			 //   BLOOMING_POOL_ADDRESS.transfer(_blooming);
 			 //   INFRASTRUCTURE_POOL_ADDRESS.transfer(_infrastructure);
 
