@@ -12,14 +12,15 @@ module.exports = function(deployer) {
 	}).then(function(){
 		return deployer.deploy(testreg)
 	}).then(function(){
-		return deployer.deploy(bloomingPool, [web3.eth.accounts[0]], [1])
+		return deployer.deploy(bloomingPool, [web3.eth.accounts[6]], [1])
 	}).then(function(){
 		return deployer.deploy(update)
-	}).then(function(bloomingPool){
-		return deployer.deploy(buyable, web3.eth.accounts[6],bloomingPool.address)
+	}).then(function(){
+		return deployer.deploy(buyable, web3.eth.accounts[6],bloomingPool.address,erc721BasicToken.address)
 	}).catch(function(error){
 		console.log(error);
 	});
 }
 
-// for production: INFRASTRUCTURE_POOL_ADDRESS == "0xE4a7E27867599D23CF426717cDf0a8EbB71ef8ca" instead of web3.eth.accounts[5]
+// @dev first recipient of the bloomingPool share is the infrastructure address as it needs to be initialised with at least one address
+// @dev for production: INFRASTRUCTURE_POOL_ADDRESS == "0xE4a7E27867599D23CF426717cDf0a8EbB71ef8ca" instead of web3.eth.accounts[5]

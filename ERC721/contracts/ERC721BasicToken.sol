@@ -10,6 +10,7 @@ import "./acl.sol";
  * @title ERC721 Non-Fungible Token Standard basic implementation
  * @dev edited verison of Open Zepplin implementation
  * @dev see https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md
+ * @dev edited _mint & isApprovedOrOwner modifiers
  */
 contract ERC721BasicToken is ERC721Basic, acl {
   using SafeMath for uint256;
@@ -62,11 +63,11 @@ contract ERC721BasicToken is ERC721Basic, acl {
    * @param _tokenId uint256 ID of the token to query the owner of
    * @return owner address currently marked as the owner of the given token ID
    */
-  function ownerOf(uint256 _tokenId) public view returns (address) {
-    address owner = tokenOwner[_tokenId];
-    require(owner != address(0));
-    return owner;
-  }
+   function ownerOf(uint256 _tokenId) public view returns (address) {
+     address owner = tokenOwner[_tokenId];
+     require(owner != address(0));
+     return owner;
+   }
 
   /**
    * @dev Returns whether the specified token exists
@@ -86,16 +87,19 @@ contract ERC721BasicToken is ERC721Basic, acl {
    * @param _to address to be approved for the given token ID
    * @param _tokenId uint256 ID of the token to be approved
    */
-  function approve(address _to, uint256 _tokenId) public {
-    address owner = ownerOf(_tokenId);
-    require(_to != owner);
-    require(msg.sender == owner || isApprovedForAll(owner, msg.sender));
+  function approve(address _to, uint256 _tokenId) internal {
+    // address owner = ownerOf(_tokenId);
 
-    if (getApproved(_tokenId) != address(0) || _to != address(0)) {
-      tokenApprovals[_tokenId] = _to;
-      emit Approval(owner, _to, _tokenId);
-    }
-  }
+	tokenApprovals[_tokenId] = _to;
+
+    /* require(_to != ownerOf(_tokenId)); */
+	/* require(msg.sender == owner  || isApprovedForAll(owner, msg.sender)); */
+
+	if (getApproved(_tokenId) != address(0) || _to != address(0)) {
+      	tokenApprovals[_tokenId] = _to;
+      	/* emit Approval(owner, _to, _tokenId); */
+    	}
+	}
 
   /**
    * @dev Gets the approved address for a token ID, or zero if no address set
@@ -134,7 +138,7 @@ contract ERC721BasicToken is ERC721Basic, acl {
     require(_from != address(0));
     require(_to != address(0));
 
-    clearApproval(_from, _tokenId);
+    /* clearApproval(_from, _tokenId); */
     removeTokenFrom(_from, _tokenId);
     addTokenTo(_to, _tokenId);
 
@@ -149,7 +153,7 @@ contract ERC721BasicToken is ERC721Basic, acl {
    * @return bool whether the msg.sender is approved for the given token ID,
    *  is an operator of the owner, or is the owner of the token
    */
-  function isApprovedOrOwner(address _spender, uint256 _tokenId) internal view returns (bool) {
+  function isApprovedOrOwner(address _spender, uint256 _tokenId) view returns (bool) {
     address owner = ownerOf(_tokenId);
     return _spender == owner || getApproved(_tokenId) == _spender || isApprovedForAll(owner, _spender);
   }

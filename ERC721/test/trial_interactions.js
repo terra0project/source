@@ -94,17 +94,9 @@ acl.deployed().then(function(instance){
 	console.log(`owner of token 1: ${instance}`)
 	console.log(`coinbase address: ${web3.eth.accounts[0]}`)
 }).then(function(){
-	return buyable.getApproved(1)
-}).then(function(instance){
-	console.log(`approved address for token 1: ${instance}`)
+	return buyable.setApprovalForAll(buyable.address,true)
 }).then(function(){
-	return buyable.isApprovedForAll(web3.eth.accounts[0], buyable.address)
-}).then(function(instance){
-	console.log(`is BUYABLE CONTRACT approved for transferal from coinbase? ${instance.toString().toUpperCase()}`)
-}).then(function(){
-	return buyable.isApprovedForAll(web3.eth.accounts[0],buyable.address)
-}).then(function(instance){
-	console.log(`is BUYABLE CONTRACT approved for transferals from coinbase? ${instance.toString().toUpperCase()}`)
+	console.log(`set BUYABLE CONTRACT as OPERATOR`)
 }).then(function(){
 	buyable.set_price_and_sell(1,100,{from:web3.eth.accounts[0]})
 }).then(function(){
