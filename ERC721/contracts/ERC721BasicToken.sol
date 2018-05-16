@@ -87,7 +87,7 @@ contract ERC721BasicToken is ERC721Basic, acl {
    * @param _to address to be approved for the given token ID
    * @param _tokenId uint256 ID of the token to be approved
    */
-  function approve(address _to, uint256 _tokenId) internal {
+  function approve(address _to, uint256 _tokenId) public {
     // address owner = ownerOf(_tokenId);
 
 	tokenApprovals[_tokenId] = _to;
@@ -138,7 +138,7 @@ contract ERC721BasicToken is ERC721Basic, acl {
     require(_from != address(0));
     require(_to != address(0));
 
-    /* clearApproval(_from, _tokenId); */
+    clearApproval(_from, _tokenId);
     removeTokenFrom(_from, _tokenId);
     addTokenTo(_to, _tokenId);
 
@@ -153,7 +153,7 @@ contract ERC721BasicToken is ERC721Basic, acl {
    * @return bool whether the msg.sender is approved for the given token ID,
    *  is an operator of the owner, or is the owner of the token
    */
-  function isApprovedOrOwner(address _spender, uint256 _tokenId) view returns (bool) {
+  function isApprovedOrOwner(address _spender, uint256 _tokenId) public view returns (bool) {
     address owner = ownerOf(_tokenId);
     return _spender == owner || getApproved(_tokenId) == _spender || isApprovedForAll(owner, _spender);
   }

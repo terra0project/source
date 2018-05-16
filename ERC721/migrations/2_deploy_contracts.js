@@ -16,7 +16,7 @@ module.exports = function(deployer) {
 	}).then(function(){
 		return deployer.deploy(update)
 	}).then(function(){
-		return deployer.deploy(buyable, web3.eth.accounts[6],bloomingPool.address,erc721BasicToken.address)
+		return deployer.deploy(buyable, web3.eth.accounts[6],bloomingPool.address)
 	}).catch(function(error){
 		console.log(error);
 	});
