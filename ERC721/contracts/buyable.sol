@@ -1,5 +1,6 @@
 pragma solidity ^0.4.23;
 import './update.sol';
+import './ERC721BasicToken.sol';
 
 contract buyable is update {
 
@@ -11,12 +12,14 @@ contract buyable is update {
     event Set_price_and_sell(uint256 tokenId, uint256 Price);
     event Stop_sell(uint256 tokenId);
 
-    constructor(address _infrastructure_address, address _blooming_address){
+    constructor() public check(2){}
+
+	function initialisation(address _infrastructure_address, address _blooming_address) public check(2){
         INFRASTRUCTURE_POOL_ADDRESS = _infrastructure_address;
         BLOOMING_POOL_ADDRESS = _blooming_address;
     }
 
-    function set_price_and_sell(uint256 UniqueID,uint256 Price) external payable{
+    function set_price_and_sell(uint256 UniqueID,uint256 Price) external {
     TokenIdtoprice[UniqueID] = Price;
     approve(address(this), UniqueID);
     emit Set_price_and_sell(UniqueID, Price);
@@ -29,8 +32,10 @@ contract buyable is update {
     }
 
 	/// @dev remember to make this p a y a b l e once transfer without payment is sorted out
-    function buy(uint256 UniqueID)external {
-	    address _to =  msg.sender;
+    function buy(uint256 UniqueID) external {
+	    address  _to =  msg.sender;
+		/* address _from = tokenOwner[UniqueID]; */
+		address _from = ownerOf(UniqueID);
 // 	    uint _total = msg.value;
 // 		if (_total !=TokenIdtoprice[UniqueID]){
 // 			revert();
@@ -40,7 +45,7 @@ contract buyable is update {
 // 			uint _amount_for_seller = msg.value.sub(_blooming + _infrastructure);
 // 			address _seller = tokenOwner[UniqueID];
 // 			_seller.transfer(_amount_for_seller);
-		    this.transferFrom(tokenOwner[UniqueID], _to, UniqueID);
+		 	transferFrom(_from, _to, UniqueID);
 		  //  BLOOMING_POOL_ADDRESS.transfer(_blooming);
 		  //  INFRASTRUCTURE_POOL_ADDRESS.transfer(_infrastructure);
 	   // }

@@ -65,7 +65,7 @@ contract ERC721BasicToken is ERC721Basic, acl {
    */
    function ownerOf(uint256 _tokenId) public view returns (address) {
      address owner = tokenOwner[_tokenId];
-     require(owner != address(0));
+     /* require(owner != address(0)); */
      return owner;
    }
 
@@ -88,17 +88,16 @@ contract ERC721BasicToken is ERC721Basic, acl {
    * @param _tokenId uint256 ID of the token to be approved
    */
   function approve(address _to, uint256 _tokenId) public {
-    // address owner = ownerOf(_tokenId);
+    address owner = tokenOwner[_tokenId];
 
 	tokenApprovals[_tokenId] = _to;
 
-    /* require(_to != ownerOf(_tokenId)); */
-	/* require(msg.sender == owner  || isApprovedForAll(owner, msg.sender)); */
+    require(_to != ownerOf(_tokenId));
+	require(msg.sender == owner  || isApprovedForAll(owner, msg.sender));
 
-	if (getApproved(_tokenId) != address(0) || _to != address(0)) {
-      	tokenApprovals[_tokenId] = _to;
-      	/* emit Approval(owner, _to, _tokenId); */
-    	}
+    tokenApprovals[_tokenId] = _to;
+    emit Approval(owner, _to, _tokenId);
+
 	}
 
   /**
@@ -144,6 +143,7 @@ contract ERC721BasicToken is ERC721Basic, acl {
 
     emit Transfer(_from, _to, _tokenId);
   }
+
 
 
   /**

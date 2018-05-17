@@ -23,6 +23,8 @@ contract bloomingPool is testreg {
         }
     }
 
+	
+
     function addPayee(address _payee, uint256 _shares) internal {
         require(_payee != address(0));
         require(_shares > 0);
