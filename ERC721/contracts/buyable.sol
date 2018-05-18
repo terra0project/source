@@ -32,10 +32,8 @@ contract buyable is update {
     }
 
 	/// @dev remember to make this p a y a b l e once transfer without payment is sorted out
-    function buy(uint256 UniqueID) external {
-	    address  _to =  msg.sender;
-		/* address _from = tokenOwner[UniqueID]; */
-		address _from = ownerOf(UniqueID);
+	function buy(uint256 UniqueID) external {
+	    address _to =  msg.sender;
 // 	    uint _total = msg.value;
 // 		if (_total !=TokenIdtoprice[UniqueID]){
 // 			revert();
@@ -45,7 +43,7 @@ contract buyable is update {
 // 			uint _amount_for_seller = msg.value.sub(_blooming + _infrastructure);
 // 			address _seller = tokenOwner[UniqueID];
 // 			_seller.transfer(_amount_for_seller);
-		 	transferFrom(_from, _to, UniqueID);
+		    this.transferFrom(tokenOwner[UniqueID], _to, UniqueID);
 		  //  BLOOMING_POOL_ADDRESS.transfer(_blooming);
 		  //  INFRASTRUCTURE_POOL_ADDRESS.transfer(_infrastructure);
 	   // }
