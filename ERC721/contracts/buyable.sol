@@ -26,27 +26,23 @@ contract buyable is update {
     }
 
     function stop_sell(uint256 UniqueID) external payable{
-    require(tokenOwner[UniqueID] == msg.sender );
+    require(tokenOwner[UniqueID] == msg.sender);
     clearApproval(tokenOwner[UniqueID],UniqueID);
     emit Stop_sell(UniqueID);
     }
 
-	/// @dev remember to make this p a y a b l e once transfer without payment is sorted out
-	function buy(uint256 UniqueID) external {
+	function buy(uint256 UniqueID) external payable {
 	    address _to =  msg.sender;
-// 	    uint _total = msg.value;
-// 		if (_total !=TokenIdtoprice[UniqueID]){
-// 			revert();
-// 		} else {
-// 			uint _blooming = _total / 20;
-// 		    uint _infrastructure = (_blooming / 20);
-// 			uint _amount_for_seller = msg.value.sub(_blooming + _infrastructure);
-// 			address _seller = tokenOwner[UniqueID];
-// 			_seller.transfer(_amount_for_seller);
-		    this.transferFrom(tokenOwner[UniqueID], _to, UniqueID);
-		  //  BLOOMING_POOL_ADDRESS.transfer(_blooming);
-		  //  INFRASTRUCTURE_POOL_ADDRESS.transfer(_infrastructure);
-	   // }
+		require(TokenIdtoprice[UniqueID] == msg.value);
+		/* uint _blooming = (_total.div(20));
+		uint _infrastructure = (_total.div(20));
+		uint _combined = _blooming.add(_infrastructure);
+		uint _amount_for_seller = msg.value.sub(_combined);
+		address _seller = tokenOwner[UniqueID];
+		_seller.transfer(_amount_for_seller); */
+		this.transferFrom(tokenOwner[UniqueID], _to, UniqueID);
+		/* BLOOMING_POOL_ADDRESS.transfer(_blooming);
+		INFRASTRUCTURE_POOL_ADDRESS.transfer(_infrastructure); */
     }
 
     function get_token_data(uint256 _tokenId) external view returns(string _health,string _height, string _blooming,uint256 _price, bool _buyable){
@@ -59,7 +55,7 @@ contract buyable is update {
         }
     }
 
-    function get_token_data_buyable(uint256 _tokenId) external view returns(bool _buyable ){
+    function get_token_data_buyable(uint256 _tokenId) external view returns(bool _buyable) {
     if (tokenApprovals[_tokenId] != address(0)){
         _buyable = true;
         }

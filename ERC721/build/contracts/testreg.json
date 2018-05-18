@@ -345,14 +345,14 @@
     "absolutePath": "/Users/mfahampshire/terra0/source/ERC721/contracts/testreg.sol",
     "exportedSymbols": {
       "testreg": [
-        2729
+        2738
       ]
     },
-    "id": 2730,
+    "id": 2739,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2714,
+        "id": 2723,
         "literals": [
           "solidity",
           "^",
@@ -365,9 +365,9 @@
       {
         "absolutePath": "/Users/mfahampshire/terra0/source/ERC721/contracts/ERC721BasicToken.sol",
         "file": "./ERC721BasicToken.sol",
-        "id": 2715,
+        "id": 2724,
         "nodeType": "ImportDirective",
-        "scope": 2730,
+        "scope": 2739,
         "sourceUnit": 607,
         "src": "25:32:7",
         "symbolAliases": [],
@@ -379,7 +379,7 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 2716,
+              "id": 2725,
               "name": "ERC721BasicToken",
               "nodeType": "UserDefinedTypeName",
               "referencedDeclaration": 606,
@@ -389,7 +389,7 @@
                 "typeString": "contract ERC721BasicToken"
               }
             },
-            "id": 2717,
+            "id": 2726,
             "nodeType": "InheritanceSpecifier",
             "src": "80:16:7"
           }
@@ -402,9 +402,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 2729,
+        "id": 2738,
         "linearizedBaseContracts": [
-          2729,
+          2738,
           606,
           776,
           105
@@ -414,14 +414,14 @@
         "nodes": [
           {
             "canonicalName": "testreg.TokenStruct",
-            "id": 2724,
+            "id": 2733,
             "members": [
               {
                 "constant": false,
-                "id": 2719,
+                "id": 2728,
                 "name": "health",
                 "nodeType": "VariableDeclaration",
-                "scope": 2724,
+                "scope": 2733,
                 "src": "130:13:7",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -430,7 +430,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 2718,
+                  "id": 2727,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "130:6:7",
@@ -444,10 +444,10 @@
               },
               {
                 "constant": false,
-                "id": 2721,
+                "id": 2730,
                 "name": "blooming",
                 "nodeType": "VariableDeclaration",
-                "scope": 2724,
+                "scope": 2733,
                 "src": "149:15:7",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -456,7 +456,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 2720,
+                  "id": 2729,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "149:6:7",
@@ -470,10 +470,10 @@
               },
               {
                 "constant": false,
-                "id": 2723,
+                "id": 2732,
                 "name": "height",
                 "nodeType": "VariableDeclaration",
-                "scope": 2724,
+                "scope": 2733,
                 "src": "170:13:7",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -482,7 +482,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 2722,
+                  "id": 2731,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "170:6:7",
@@ -497,27 +497,27 @@
             ],
             "name": "TokenStruct",
             "nodeType": "StructDefinition",
-            "scope": 2729,
+            "scope": 2738,
             "src": "105:83:7",
             "visibility": "public"
           },
           {
             "constant": false,
-            "id": 2728,
+            "id": 2737,
             "name": "TokenId",
             "nodeType": "VariableDeclaration",
-            "scope": 2729,
+            "scope": 2738,
             "src": "192:40:7",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_TokenStruct_$2724_storage_$",
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_TokenStruct_$2733_storage_$",
               "typeString": "mapping(uint256 => struct testreg.TokenStruct)"
             },
             "typeName": {
-              "id": 2727,
+              "id": 2736,
               "keyType": {
-                "id": 2725,
+                "id": 2734,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "201:7:7",
@@ -529,18 +529,18 @@
               "nodeType": "Mapping",
               "src": "192:32:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_TokenStruct_$2724_storage_$",
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_TokenStruct_$2733_storage_$",
                 "typeString": "mapping(uint256 => struct testreg.TokenStruct)"
               },
               "valueType": {
                 "contractScope": null,
-                "id": 2726,
+                "id": 2735,
                 "name": "TokenStruct",
                 "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 2724,
+                "referencedDeclaration": 2733,
                 "src": "212:11:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_TokenStruct_$2724_storage_ptr",
+                  "typeIdentifier": "t_struct$_TokenStruct_$2733_storage_ptr",
                   "typeString": "struct testreg.TokenStruct"
                 }
               }
@@ -549,7 +549,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 2730,
+        "scope": 2739,
         "src": "60:177:7"
       }
     ],
@@ -559,14 +559,14 @@
     "absolutePath": "/Users/mfahampshire/terra0/source/ERC721/contracts/testreg.sol",
     "exportedSymbols": {
       "testreg": [
-        2729
+        2738
       ]
     },
-    "id": 2730,
+    "id": 2739,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2714,
+        "id": 2723,
         "literals": [
           "solidity",
           "^",
@@ -579,9 +579,9 @@
       {
         "absolutePath": "/Users/mfahampshire/terra0/source/ERC721/contracts/ERC721BasicToken.sol",
         "file": "./ERC721BasicToken.sol",
-        "id": 2715,
+        "id": 2724,
         "nodeType": "ImportDirective",
-        "scope": 2730,
+        "scope": 2739,
         "sourceUnit": 607,
         "src": "25:32:7",
         "symbolAliases": [],
@@ -593,7 +593,7 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 2716,
+              "id": 2725,
               "name": "ERC721BasicToken",
               "nodeType": "UserDefinedTypeName",
               "referencedDeclaration": 606,
@@ -603,7 +603,7 @@
                 "typeString": "contract ERC721BasicToken"
               }
             },
-            "id": 2717,
+            "id": 2726,
             "nodeType": "InheritanceSpecifier",
             "src": "80:16:7"
           }
@@ -616,9 +616,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 2729,
+        "id": 2738,
         "linearizedBaseContracts": [
-          2729,
+          2738,
           606,
           776,
           105
@@ -628,14 +628,14 @@
         "nodes": [
           {
             "canonicalName": "testreg.TokenStruct",
-            "id": 2724,
+            "id": 2733,
             "members": [
               {
                 "constant": false,
-                "id": 2719,
+                "id": 2728,
                 "name": "health",
                 "nodeType": "VariableDeclaration",
-                "scope": 2724,
+                "scope": 2733,
                 "src": "130:13:7",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -644,7 +644,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 2718,
+                  "id": 2727,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "130:6:7",
@@ -658,10 +658,10 @@
               },
               {
                 "constant": false,
-                "id": 2721,
+                "id": 2730,
                 "name": "blooming",
                 "nodeType": "VariableDeclaration",
-                "scope": 2724,
+                "scope": 2733,
                 "src": "149:15:7",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -670,7 +670,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 2720,
+                  "id": 2729,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "149:6:7",
@@ -684,10 +684,10 @@
               },
               {
                 "constant": false,
-                "id": 2723,
+                "id": 2732,
                 "name": "height",
                 "nodeType": "VariableDeclaration",
-                "scope": 2724,
+                "scope": 2733,
                 "src": "170:13:7",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -696,7 +696,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 2722,
+                  "id": 2731,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "170:6:7",
@@ -711,27 +711,27 @@
             ],
             "name": "TokenStruct",
             "nodeType": "StructDefinition",
-            "scope": 2729,
+            "scope": 2738,
             "src": "105:83:7",
             "visibility": "public"
           },
           {
             "constant": false,
-            "id": 2728,
+            "id": 2737,
             "name": "TokenId",
             "nodeType": "VariableDeclaration",
-            "scope": 2729,
+            "scope": 2738,
             "src": "192:40:7",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_TokenStruct_$2724_storage_$",
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_TokenStruct_$2733_storage_$",
               "typeString": "mapping(uint256 => struct testreg.TokenStruct)"
             },
             "typeName": {
-              "id": 2727,
+              "id": 2736,
               "keyType": {
-                "id": 2725,
+                "id": 2734,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "201:7:7",
@@ -743,18 +743,18 @@
               "nodeType": "Mapping",
               "src": "192:32:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_TokenStruct_$2724_storage_$",
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_TokenStruct_$2733_storage_$",
                 "typeString": "mapping(uint256 => struct testreg.TokenStruct)"
               },
               "valueType": {
                 "contractScope": null,
-                "id": 2726,
+                "id": 2735,
                 "name": "TokenStruct",
                 "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 2724,
+                "referencedDeclaration": 2733,
                 "src": "212:11:7",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_TokenStruct_$2724_storage_ptr",
+                  "typeIdentifier": "t_struct$_TokenStruct_$2733_storage_ptr",
                   "typeString": "struct testreg.TokenStruct"
                 }
               }
@@ -763,7 +763,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 2730,
+        "scope": 2739,
         "src": "60:177:7"
       }
     ],
@@ -775,5 +775,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-05-18T08:16:26.077Z"
+  "updatedAt": "2018-05-18T16:55:18.795Z"
 }
