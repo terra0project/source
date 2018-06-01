@@ -4,12 +4,15 @@ var buyable = artifacts.require("buyable");
 var testreg = artifacts.require("testreg");
 var update = artifacts.require("update");
 var erc721 = artifacts.require("ERC721BasicToken.sol");
+var infrastructurePool = artifacts.require("infrastructurePool.sol");
 
 bloomingPool.setProvider(web3.currentProvider);
 buyable.setProvider(web3.currentProvider);
+infrastructurePool.setProvider(web3.currentProvider);
 
 var bloom;
 var buyable;
+var infra;
 
 bloomingPool.deployed()
 .then(function(instance){
@@ -21,7 +24,12 @@ bloomingPool.deployed()
 	buyable = instance;
 	console.log("buyable deployed properly...")
 }).then(function(){
-	console.log(`\nbloomingPool: ${bloom.address}\nbuyable: ${buyable.address}`)
+	return infrastructurePool.deployed()
+}).then(function(instance){
+	infra = instance;
+	console.log("infrastructurePool deployed properly...")
+}).then(function(){
+	console.log(`\nbloomingPool: ${bloom.address}\nbuyable: ${buyable.address}\ninfrastructurePool: ${infra.address}`)
 }).then(function(){
 	console.log("\nbeginning minting...")
 }).then(function(){
@@ -50,7 +58,7 @@ bloomingPool.deployed()
 	buyable.setRole(1,web3.eth.accounts[5])
 	console.log("ROLE of web.eth.accounts[5]: 1 (ORACLE)")
 }).then(function(){
-	buyable.initialisation(web3.eth.accounts[5],bloom.address)
+	buyable.initialisation(infra.address,bloom.address)
 	console.log("Initialised state variables of BUYABLE CONTRACT for BLOOMING POOL and INFRASTRUCTURE POOL payouts")
 }).then(function(){
 	process.exit()
