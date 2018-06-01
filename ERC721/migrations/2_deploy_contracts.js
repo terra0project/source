@@ -11,6 +11,6 @@ var erc721BasicToken = artifacts.require("./ERC721BasicToken.sol");
 module.exports = function(deployer) {
 	deployer.deploy(buyable)
 	.then(function(){
-		return deployer.deploy(bloomingPool, [web3.eth.accounts[6]], [1])
+		return deployer.deploy(bloomingPool, [web3.eth.accounts[5]], [1])
 	})
 }

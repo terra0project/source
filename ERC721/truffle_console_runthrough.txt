@@ -1,0 +1,41 @@
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+INITALISATION
+buyable.deployed().then(function(instance){buy=instance;})
+bloomingPool.deployed().then(function(instance){blooming=instance;})
+buy.initialisation(web3.eth.accounts[5],blooming.address)
+buy.getRole(web3.eth.accounts[0])
+web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
+
+TOKEN TRANSFERAL PART 1: OWNERSHIP [0] -> [1]
+buy._mint(web3.eth.accounts[0],1)
+buy.exists(1)
+buy.balanceOf(web3.eth.accounts[0]).then(function(instance){return instance.toNumber()})
+buy.setApprovalForAll(buyable.address,true)
+buy.isApprovedOrOwner(buyable.address,1)
+buy.isApprovedForAll(web3.eth.accounts[0],buyable.address)
+buy.ownerOf(1)
+buy.set_price_and_sell(1,100)
+buy.get_token_data_buyable(1)
+buy.get_token_data(1)
+buy.stop_sell(1)
+buy.get_token_data_buyable(1)
+buy.get_token_data(1)
+buy.set_price_and_sell(1,100)
+buy.get_token_data_buyable(1)
+buy.get_token_data(1)
+
+TOKEN TRANSFERAL PART 2: CHECKING BLOOMING AND INFRASTRUCTURE PARSING WORKS
+web3.eth.sendTransaction({from:web3.eth.accounts[5],to:web3.eth.accounts[2],amount:1000})
+web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
+web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
+buy.buy(1,{from:web3.eth.accounts[5], gas: 999999, value: 100})
+buy.balanceOf(web3.eth.accounts[5]).then(function(instance){return instance.toNumber()})
+buy.balanceOf(web3.eth.accounts[0]).then(function(instance){return instance.toNumber()})
+web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
+web3.eth.getBalance(blooming.address).toNumber()
+web3.eth.getBalance(web3.eth.accounts[1]).toNumber()
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
