@@ -13,8 +13,9 @@ contract infrastructurePool is acl {
 
 	function() payable {}
 
-	function withdrawFunds() external check(2) {
-		// fund withdrawal for admin account
-
+	function withdrawFunds(uint amount) external check(2) {
+		require(amount <= this.balance);
+		msg.sender.transfer(amount);
 	}
+
 }
