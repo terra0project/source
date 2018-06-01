@@ -5,7 +5,8 @@
 INITALISATION
 buyable.deployed().then(function(instance){buy=instance;})
 bloomingPool.deployed().then(function(instance){blooming=instance;})
-buy.initialisation(web3.eth.accounts[5],blooming.address)
+infrastructurePool.deployed().then(function(instance){infra=instance;})
+buy.initialisation(infra.address,blooming.address)
 buy.getRole(web3.eth.accounts[0])
 web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
 
@@ -23,7 +24,7 @@ buy.get_token_data(1)
 buy.stop_sell(1)
 buy.get_token_data_buyable(1)
 buy.get_token_data(1)
-buy.set_price_and_sell(1,100)
+buy.set_price_and_sell(1,10000)
 buy.get_token_data_buyable(1)
 buy.get_token_data(1)
 
@@ -33,12 +34,18 @@ web3.eth.sendTransaction({from:web3.eth.accounts[6],to:web3.eth.accounts[2],amou
 web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
 web3.eth.getBalance(web3.eth.accounts[6]).toNumber()
 web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
-buy.buy(1,{from:web3.eth.accounts[5], gas: 999999, value: 100})
+buy.buy(1,{from:web3.eth.accounts[5], gas: 999999, value: 10000})
 buy.balanceOf(web3.eth.accounts[5]).then(function(instance){return instance.toNumber()})
 buy.balanceOf(web3.eth.accounts[0]).then(function(instance){return instance.toNumber()})
 web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
 web3.eth.getBalance(web3.eth.accounts[6]).toNumber()
 web3.eth.getBalance(blooming.address).toNumber()
-web3.eth.getBalance(web3.eth.accounts[1]).toNumber()
+web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
+
+INFRASTRUCTURE POOL ACCOUNT WITHDRAWAL
+web3.eth.getBalance(infra.address).toNumber()
+infra.withdrawFunds({from:web3.eth.accounts[2],gas:99999,value:0}) // THIS SHOULD FAIL
+infra.withdrawFunds({from:web3.eth.accounts[0],gas:99999,value:0})
+web3.eth.getBalance(infra.address).toNumber()
 
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
