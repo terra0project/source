@@ -34,16 +34,30 @@ contract buyable is update {
 	function buy(uint256 UniqueID) external payable {
 	    address _to =  msg.sender;
 		require(TokenIdtoprice[UniqueID] == msg.value);
-		/* uint _blooming = (_total.div(20));
-		uint _infrastructure = (_total.div(20));
+		uint _blooming = msg.value.div(20);
+		uint _infrastructure = msg.value.div(20);
 		uint _combined = _blooming.add(_infrastructure);
 		uint _amount_for_seller = msg.value.sub(_combined);
-		address _seller = tokenOwner[UniqueID];
-		_seller.transfer(_amount_for_seller); */
+		to_seller(tokenOwner[UniqueID], _amount_for_seller);
+		/* tokenOwner[UniqueID].call.gas(99999).value(_amount_for_seller)(); */
 		this.transferFrom(tokenOwner[UniqueID], _to, UniqueID);
-		/* BLOOMING_POOL_ADDRESS.transfer(_blooming);
-		INFRASTRUCTURE_POOL_ADDRESS.transfer(_infrastructure); */
+		/* BLOOMING_POOL_ADDRESS.call.gas(99999).value(_blooming)(); */
+		to_blooming_pool(_blooming);
+		/* INFRASTRUCTURE_POOL_ADDRESS.call.gas(99999).value(_infrastructure)(); */
+		to_infrastructure_pool(_infrastructure);
     }
+
+	function to_seller(address _to, uint _amount) payable {
+		_to.call.gas(99999).value(_amount)(); // currently unoptimized for maximum gas price in development
+	}
+
+	function to_blooming_pool(uint _amount) payable {
+		BLOOMING_POOL_ADDRESS.call.gas(99999).value(_amount)();
+	}
+
+	function to_infrastructure_pool(uint _amount) payable {
+		INFRASTRUCTURE_POOL_ADDRESS.call.gas(99999).value(_amount)();
+	}
 
     function get_token_data(uint256 _tokenId) external view returns(string _health,string _height, string _blooming,uint256 _price, bool _buyable){
     _health =  TokenId[_tokenId].health;

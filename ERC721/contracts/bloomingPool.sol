@@ -23,7 +23,7 @@ contract bloomingPool is testreg {
         }
     }
 
-	
+	function() public payable { } // fallback function for payment acceptance
 
     function addPayee(address _payee, uint256 _shares) internal {
         require(_payee != address(0));
