@@ -10,7 +10,7 @@ buy.initialisation(infra.address,blooming.address)
 buy.getRole(web3.eth.accounts[0])
 web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
 
-TOKEN TRANSFERAL PART 1: OWNERSHIP [0] -> [1]
+TOKEN TRANSFERAL PART 1: OWNERSHIP [0] -> [1] & TESTING SET_PRICE_AND_SELL TRIGGER WORKS PROPERLY
 buy._mint(web3.eth.accounts[0],1)
 buy.exists(1)
 buy.balanceOf(web3.eth.accounts[0]).then(function(instance){return instance.toNumber()})
@@ -18,7 +18,7 @@ buy.setApprovalForAll(buyable.address,true)
 buy.isApprovedOrOwner(buyable.address,1)
 buy.isApprovedForAll(web3.eth.accounts[0],buyable.address)
 buy.ownerOf(1)
-buy.set_price_and_sell(1,100)
+buy.set_price_and_sell(1,10000)
 buy.get_token_data_buyable(1)
 buy.get_token_data(1)
 buy.stop_sell(1)
@@ -44,8 +44,8 @@ web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
 
 INFRASTRUCTURE POOL ACCOUNT WITHDRAWAL
 web3.eth.getBalance(infra.address).toNumber()
-infra.withdrawFunds({from:web3.eth.accounts[2],gas:99999,value:0}) // THIS SHOULD FAIL
-infra.withdrawFunds({from:web3.eth.accounts[0],gas:99999,value:0})
+infra.withdrawFunds(10,{from:web3.eth.accounts[2],gas:99999,value:0}) // THIS SHOULD FAIL BECAUSE OF PERMISSIONS FROM ACL
+infra.withdrawFunds(10,{from:web3.eth.accounts[0],gas:99999,value:0})
 web3.eth.getBalance(infra.address).toNumber()
 
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
