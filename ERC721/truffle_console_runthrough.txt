@@ -29,12 +29,15 @@ buy.get_token_data(1)
 
 TOKEN TRANSFERAL PART 2: CHECKING BLOOMING AND INFRASTRUCTURE PARSING WORKS
 web3.eth.sendTransaction({from:web3.eth.accounts[5],to:web3.eth.accounts[2],amount:1000})
+web3.eth.sendTransaction({from:web3.eth.accounts[6],to:web3.eth.accounts[2],amount:1000})
 web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
+web3.eth.getBalance(web3.eth.accounts[6]).toNumber()
 web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
 buy.buy(1,{from:web3.eth.accounts[5], gas: 999999, value: 100})
 buy.balanceOf(web3.eth.accounts[5]).then(function(instance){return instance.toNumber()})
 buy.balanceOf(web3.eth.accounts[0]).then(function(instance){return instance.toNumber()})
 web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
+web3.eth.getBalance(web3.eth.accounts[6]).toNumber()
 web3.eth.getBalance(blooming.address).toNumber()
 web3.eth.getBalance(web3.eth.accounts[1]).toNumber()
 
