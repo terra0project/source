@@ -22,11 +22,11 @@ contract acl{
     }
 
     function setRole(uint8 rolevalue,address entity)external check(2){
-        permissions[entity] = Role(rolevalue);
+    permissions[entity] = Role(rolevalue);
     }
 
     function getRole(address entity)public view returns(Role){
-    return permissions[entity];
+        return permissions[entity];
     }
 
     modifier check(uint8 role) {
