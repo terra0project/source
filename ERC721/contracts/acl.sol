@@ -18,11 +18,11 @@ contract acl{
     mapping (address=> Role) permissions;
 
     constructor() public {
-    permissions[msg.sender] = Role(2);
+        permissions[msg.sender] = Role(2);
     }
 
     function setRole(uint8 rolevalue,address entity)external check(2){
-    permissions[entity] = Role(rolevalue);
+        permissions[entity] = Role(rolevalue);
     }
 
     function getRole(address entity)public view returns(Role){

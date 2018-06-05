@@ -8,8 +8,8 @@ contract bloomingPool is testreg {
 
     using SafeMath for uint256;
 
-    uint256 public totalShares = 0;
-    uint256 public totalReleased = 0;
+    uint256 public totalShares;
+    uint256 public totalReleased;
 
     mapping(address => uint256) public shares;
     mapping(address => uint256) public released;
@@ -26,16 +26,17 @@ contract bloomingPool is testreg {
 	function() public payable { } // fallback function for payment acceptance
 
     function addPayee(address _payee, uint256 _shares) internal {
-        require(_payee != address(0));
-        require(_shares > 0);
-        require(shares[_payee] == 0);
+        if(_payee != address(0)){ // if someone burns their token the whole thing stops !!!!
+            require(_shares > 0);
+            require(shares[_payee] == 0);
 
-        payees.push(_payee);
-        shares[_payee] = _shares;
-        totalShares = totalShares.add(_shares);
+            payees.push(_payee);
+            shares[_payee] = _shares;
+            totalShares = totalShares.add(_shares);
+        }
     }
 
-	function oracle_call() external check(1) {
+	function oracle_call() external check(1) { // only oracle
 		check_blooming();
 		for (uint i=0;i<payees.length;i++){
 			address to = payees[i];
@@ -65,7 +66,7 @@ contract bloomingPool is testreg {
         released[payee] = released[payee].add(payment);
         totalReleased = totalReleased.add(payment);
 
-        payee.transfer(payment);
+        require(payee.transfer(payment)); // need to fail when transfer fails !!! // check send v transfer
 	}
 
 	function reset_shares() internal {
