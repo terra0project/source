@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import './SafeMath.sol'; // not used
+import './SafeMath.sol';
 import "./acl.sol";
 
 // infrastructure pool for terra0 flowertokens test
