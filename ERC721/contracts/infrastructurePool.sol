@@ -1,11 +1,9 @@
 pragma solidity ^0.4.23;
 
 import './SafeMath.sol';
-import "./acl.sol";
+import "./Ownable.sol";
 
-// infrastructure pool for terra0 flowertokens test
-
-contract infrastructurePool is acl {
+contract infrastructurePool is Ownable {
 
 	using SafeMath for uint256;
 
@@ -13,7 +11,7 @@ contract infrastructurePool is acl {
 
 	function() payable {}
 
-	function withdrawFunds(uint amount) external check(2) {
+	function withdrawFunds(uint amount) external onlyOwner {
 		require(amount <= this.balance);
 		msg.sender.transfer(amount);
 	}

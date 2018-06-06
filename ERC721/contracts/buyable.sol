@@ -1,22 +1,20 @@
 pragma solidity ^0.4.23;
-import './update.sol';
+import './bloomingPool.sol';
 import './ERC721BasicToken.sol';
 
-contract buyable is update {
+contract buyable is bloomingPool {
 
 	address INFRASTRUCTURE_POOL_ADDRESS;
-	address BLOOMING_POOL_ADDRESS;
     uint blooming_fee = 2;
     mapping (uint256 => uint256) TokenIdtoprice;
 
     event Set_price_and_sell(uint256 tokenId, uint256 Price);
     event Stop_sell(uint256 tokenId);
 
-    constructor() public check(2){}
+    constructor() public {}
 
-	function initialisation(address _infrastructure_address, address _blooming_address) public check(2){
+	function initialisation(address _infrastructure_address) public check(2){
         INFRASTRUCTURE_POOL_ADDRESS = _infrastructure_address;
-        BLOOMING_POOL_ADDRESS = _blooming_address;
     }
 
     function set_price_and_sell(uint256 UniqueID,uint256 Price) external {
@@ -40,12 +38,7 @@ contract buyable is update {
 		uint _amount_for_seller = msg.value.sub(_combined);
 		require(tokenOwner[UniqueID].call.gas(99999).value(_amount_for_seller)());
 		this.transferFrom(tokenOwner[UniqueID], _to, UniqueID);
-		if (!BLOOMING_POOL_ADDRESS.call.gas(99999).value(_blooming)()){
-	   		revert("fund transfer to BLOOMING POOL failed");
-		}
-		if (!INFRASTRUCTURE_POOL_ADDRESS.call.gas(99999).value(_infrastructure)()){
-			revert("fund transfer to INFRASTRUCTURE POOL failed");
-		}
+		require(INFRASTRUCTURE_POOL_ADDRESS.call.gas(99999).value(_infrastructure)());
     }
 
     function get_token_data(uint256 _tokenId) external view returns(string _growth_rate,string _height, string _blooming,uint256 _price, bool _buyable){

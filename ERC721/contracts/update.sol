@@ -1,9 +1,8 @@
 pragma solidity ^0.4.23;
-import './SafeMath.sol';
 import './testreg.sol';
 import './strings.sol';
 
-contract update is testreg{
+contract update is testreg {
 
     using strings for *;
 

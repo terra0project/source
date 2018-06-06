@@ -1,10 +1,10 @@
 pragma solidity ^0.4.23;
-import './testreg.sol';
+import './update.sol';
 import './SafeMath.sol';
 
 /// @dev altered version of Open Zepplin's 'SplitPayment' contract
 
-contract bloomingPool is testreg {
+contract bloomingPool is update {
 
     using SafeMath for uint256;
 
@@ -15,13 +15,7 @@ contract bloomingPool is testreg {
     mapping(address => uint256) public released;
     address[] public payees;
 
-    constructor(address[] _payees, uint256[] _shares) public payable {
-        require(_payees.length == _shares.length);
-
-        for (uint256 i = 0; i < _payees.length; i++) {
-          addPayee(_payees[i], _shares[i]);
-        }
-    }
+	constructor() public {}
 
 	function() public payable { } // fallback function for payment acceptance
 
@@ -36,7 +30,7 @@ contract bloomingPool is testreg {
 		}
     }
 
-	function oracle_call() external check(1) {
+	function oracle_call() external check(1){
 		check_blooming();
 		for (uint i=0;i<payees.length;i++){
 			address to = payees[i];
