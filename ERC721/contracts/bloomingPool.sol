@@ -26,13 +26,14 @@ contract bloomingPool is testreg {
 	function() public payable { } // fallback function for payment acceptance
 
     function addPayee(address _payee, uint256 _shares) internal {
-        require(_payee != address(0));
-        require(_shares > 0);
-        require(shares[_payee] == 0);
+		if (_payee != address(0)) {
+			require(_shares > 0);
+	        require(shares[_payee] == 0);
 
-        payees.push(_payee);
-        shares[_payee] = _shares;
-        totalShares = totalShares.add(_shares);
+	        payees.push(_payee);
+	        shares[_payee] = _shares;
+	        totalShares = totalShares.add(_shares);
+		}
     }
 
 	function oracle_call() external check(1) {

@@ -38,29 +38,18 @@ contract buyable is update {
 		uint _infrastructure = msg.value.div(20);
 		uint _combined = _blooming.add(_infrastructure);
 		uint _amount_for_seller = msg.value.sub(_combined);
-		to_seller(tokenOwner[UniqueID], _amount_for_seller);
-		/* tokenOwner[UniqueID].call.gas(99999).value(_amount_for_seller)(); */
+		require(tokenOwner[UniqueID].call.gas(99999).value(_amount_for_seller)());
 		this.transferFrom(tokenOwner[UniqueID], _to, UniqueID);
-		/* BLOOMING_POOL_ADDRESS.call.gas(99999).value(_blooming)(); */
-		to_blooming_pool(_blooming);
-		/* INFRASTRUCTURE_POOL_ADDRESS.call.gas(99999).value(_infrastructure)(); */
-		to_infrastructure_pool(_infrastructure);
+		if (!BLOOMING_POOL_ADDRESS.call.gas(99999).value(_blooming)()){
+	   		revert("fund transfer to BLOOMING POOL failed");
+		}
+		if (!INFRASTRUCTURE_POOL_ADDRESS.call.gas(99999).value(_infrastructure)()){
+			revert("fund transfer to INFRASTRUCTURE POOL failed");
+		}
     }
 
-	function to_seller(address _to, uint _amount) payable {
-		_to.call.gas(99999).value(_amount)(); // currently unoptimized for maximum gas price in development
-	}
-
-	function to_blooming_pool(uint _amount) payable {
-		BLOOMING_POOL_ADDRESS.call.gas(99999).value(_amount)();
-	}
-
-	function to_infrastructure_pool(uint _amount) payable {
-		INFRASTRUCTURE_POOL_ADDRESS.call.gas(99999).value(_amount)();
-	}
-
-    function get_token_data(uint256 _tokenId) external view returns(string _health,string _height, string _blooming,uint256 _price, bool _buyable){
-    _health =  TokenId[_tokenId].health;
+    function get_token_data(uint256 _tokenId) external view returns(string _growth_rate,string _height, string _blooming,uint256 _price, bool _buyable){
+    _growth_rate =  TokenId[_tokenId].growth_rate;
     _height = TokenId[_tokenId].height;
     _blooming = TokenId[_tokenId].blooming;
     _price = TokenIdtoprice[_tokenId];
@@ -75,13 +64,13 @@ contract buyable is update {
         }
     }
 
-    function get_all_sellable_token()external view returns(bytes1[101] list_of_available){
+    function get_all_sellable_token()external view returns(bool[101] list_of_available){
     uint i;
     for(i=0;i<101;i++) {
           if (tokenApprovals[i] != address(0)){
-            list_of_available[i] = 0x01;
+            list_of_available[i] = true;
           }else{
-            list_of_available[i] = 0x00;
+            list_of_available[i] = false;
           }
         }
     }

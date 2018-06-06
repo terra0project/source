@@ -6,27 +6,28 @@ INITALISATION
 buyable.deployed().then(function(instance){buy=instance;})
 bloomingPool.deployed().then(function(instance){blooming=instance;})
 infrastructurePool.deployed().then(function(instance){infra=instance;})
-buy.initialisation(infra.address,blooming.address)
+******* buy.initialisation(infra.address,blooming.address) ***** DONT USE THIS IN DEV (COVERED BY SCRIPT)
 buy.getRole(web3.eth.accounts[0])
 web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
 
 TOKEN TRANSFERAL PART 1: OWNERSHIP [0] -> [1] & TESTING SET_PRICE_AND_SELL TRIGGER WORKS PROPERLY
-buy._mint(web3.eth.accounts[0],1)
+******* buy._mint(web3.eth.accounts[0],1) ***** DONT USE THIS IN DEV (COVERED BY SCRIPT)
 buy.exists(1)
 buy.balanceOf(web3.eth.accounts[0]).then(function(instance){return instance.toNumber()})
-buy.setApprovalForAll(buyable.address,true)
+******* buy.setApprovalForAll(buyable.address,true) DON'T SET THIS IN THE INTERFACE DONT USE FOR TESTING *******
 buy.isApprovedOrOwner(buyable.address,1)
 buy.isApprovedForAll(web3.eth.accounts[0],buyable.address)
 buy.ownerOf(1)
-buy.set_price_and_sell(1,10000)
+buy.set_price_and_sell(1,111111111)
 buy.get_token_data_buyable(1)
 buy.get_token_data(1)
 buy.stop_sell(1)
 buy.get_token_data_buyable(1)
 buy.get_token_data(1)
-buy.set_price_and_sell(1,10000)
+buy.set_price_and_sell(1,111111111)
 buy.get_token_data_buyable(1)
 buy.get_token_data(1)
+buy.get_all_sellable_token()
 
 TOKEN TRANSFERAL PART 2: CHECKING BLOOMING AND INFRASTRUCTURE PARSING WORKS
 web3.eth.sendTransaction({from:web3.eth.accounts[5],to:web3.eth.accounts[2],amount:1000})
@@ -34,7 +35,7 @@ web3.eth.sendTransaction({from:web3.eth.accounts[6],to:web3.eth.accounts[2],amou
 web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
 web3.eth.getBalance(web3.eth.accounts[6]).toNumber()
 web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
-buy.buy(1,{from:web3.eth.accounts[5], gas: 999999, value: 10000})
+buy.buy(1,{from:web3.eth.accounts[5], gas: 999999, value: 111111111})
 buy.balanceOf(web3.eth.accounts[5]).then(function(instance){return instance.toNumber()})
 buy.balanceOf(web3.eth.accounts[0]).then(function(instance){return instance.toNumber()})
 web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
@@ -44,8 +45,13 @@ web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
 
 INFRASTRUCTURE POOL ACCOUNT WITHDRAWAL
 web3.eth.getBalance(infra.address).toNumber()
-infra.withdrawFunds(10,{from:web3.eth.accounts[2],gas:99999,value:0}) // THIS SHOULD FAIL BECAUSE OF PERMISSIONS FROM ACL
-infra.withdrawFunds(10,{from:web3.eth.accounts[0],gas:99999,value:0})
+infra.withdrawFunds(9999,{from:web3.eth.accounts[2],gas:99999,value:0}) // THIS SHOULD FAIL BECAUSE OF PERMISSIONS FROM ACL
+infra.withdrawFunds(9999,{from:web3.eth.accounts[0],gas:99999,value:0})
 web3.eth.getBalance(infra.address).toNumber()
+
+BLOOMING POOL PAYOUT CHECK
+// set a few tokens as being blooming
+buy.setRole(1,web3.eth.accounts[5])
+blooming.oracle_call({from:web3.eth.accounts[5]})
 
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
