@@ -26,14 +26,13 @@ contract bloomingPool is testreg {
 	function() public payable { } // fallback function for payment acceptance
 
     function addPayee(address _payee, uint256 _shares) internal {
-        if(_payee != address(0)){ // if someone burns their token the whole thing stops !!!!
-            require(_shares > 0);
-            require(shares[_payee] == 0);
+        require(_payee != address(0));
+        require(_shares > 0);
+        require(shares[_payee] == 0);
 
-            payees.push(_payee);
-            shares[_payee] = _shares;
-            totalShares = totalShares.add(_shares);
-        }
+        payees.push(_payee);
+        shares[_payee] = _shares;
+        totalShares = totalShares.add(_shares);
     }
 
 	function oracle_call() external check(1) {
@@ -66,7 +65,7 @@ contract bloomingPool is testreg {
         released[payee] = released[payee].add(payment);
         totalReleased = totalReleased.add(payment);
 
-        require(payee.transfer(payment)); // need to fail when transfer fails, otherwise payee might not receive funds // also check send v transfer safety best practice
+        payee.transfer(payment);
 	}
 
 	function reset_shares() internal {
