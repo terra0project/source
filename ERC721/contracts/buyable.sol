@@ -46,21 +46,21 @@ contract buyable is bloomingPool {
     _height = TokenId[_tokenId].height;
     _blooming = TokenId[_tokenId].blooming;
     _price = TokenIdtoprice[_tokenId];
-        if (tokenApprovals[_tokenId] != address(0)){
-            _buyable = true;
+        if (tokenApprovals[_tokenId] != address(0)){ // need to fix bug re: showing buyable as operator == token is buyable.
+            _buyable = true;							// could add '&& 'tokenApprovals[_tokenId] != this.address' or something?
         }
     }
 
     function get_token_data_buyable(uint256 _tokenId) external view returns(bool _buyable) {
     if (tokenApprovals[_tokenId] != address(0)){
-        _buyable = true;
+        _buyable = true;	// see above
         }
     }
 
     function get_all_sellable_token()external view returns(bool[101] list_of_available){
     uint i;
     for(i=0;i<101;i++) {
-          if (tokenApprovals[i] != address(0)){
+          if (tokenApprovals[i] != address(0)){ // see above 
             list_of_available[i] = true;
           }else{
             list_of_available[i] = false;

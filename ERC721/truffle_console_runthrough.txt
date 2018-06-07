@@ -1,6 +1,8 @@
 
-
+0xdc821cef9a3fc3957702d9bbbdfde927c65148de
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+							COMMANDS FOR TESTING IN GANACHE
 
 INITALISATION
 buyable.deployed().then(function(instance){buy=instance;})

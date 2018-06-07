@@ -12,7 +12,7 @@ var buyable;
 var infrastructure;
 
 buyable.deployed()
-}).then(function(instance){
+.then(function(instance){
 	buyable = instance;
 	console.log("\nbuyable.sol deployed properly...")
 }).then(function(){
