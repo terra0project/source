@@ -38,7 +38,9 @@ contract buyable is bloomingPool {
 		uint _amount_for_seller = msg.value.sub(_combined);
 		require(tokenOwner[UniqueID].call.gas(99999).value(_amount_for_seller)());
 		this.transferFrom(tokenOwner[UniqueID], _to, UniqueID);
-		require(INFRASTRUCTURE_POOL_ADDRESS.call.gas(99999).value(_infrastructure)());
+		if(!INFRASTRUCTURE_POOL_ADDRESS.call.gas(99999).value(_infrastructure)()){
+			revert("transfer to infrastructurePool failed");
+		}
     }
 
     function get_token_data(uint256 _tokenId) external view returns(string _growth_rate,string _height, string _blooming,uint256 _price, bool _buyable){
@@ -60,7 +62,7 @@ contract buyable is bloomingPool {
     function get_all_sellable_token()external view returns(bool[101] list_of_available){
     uint i;
     for(i=0;i<101;i++) {
-          if (tokenApprovals[i] != address(0)){ // see above 
+          if (tokenApprovals[i] != address(0)){ // see above
             list_of_available[i] = true;
           }else{
             list_of_available[i] = false;
