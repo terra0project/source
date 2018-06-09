@@ -7,7 +7,7 @@
 INITALISATION
 buyable.deployed().then(function(instance){buy=instance;})
 infrastructurePool.deployed().then(function(instance){infrastructure = instance;})
-******* buy.initialisation(infrastructure.address) ***** DONT USE THIS IN PRODUCTION (COVERED BY SCRIPT)
+buy.initialisation(infrastructure.address)
 buy.getRole(web3.eth.accounts[0])
 web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
 
