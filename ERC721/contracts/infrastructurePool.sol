@@ -1,19 +1,19 @@
 pragma solidity ^0.4.23;
 
-import './SafeMath.sol';
+import "./SafeMath.sol";
 import "./Ownable.sol";
 
 contract infrastructurePool is Ownable {
 
-	using SafeMath for uint256;
+    using SafeMath for uint256;
 
-	constructor() public {}
+    constructor() public {}
 
-	function() payable {}
+    function() payable {}
 
-	function withdrawFunds(uint amount) external onlyOwner {
-		require(amount <= this.balance);
-		msg.sender.transfer(amount);
-	}
+    function withdrawFunds(uint amount) external onlyOwner {
+        require(amount <= this.balance);
+        msg.sender.transfer(amount);
+    }
 
 }

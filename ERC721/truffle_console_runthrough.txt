@@ -68,4 +68,37 @@ web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
 web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
 web3.eth.getBalance(buy.address).toNumber()
 
+BUYING FROM OTHER ACCOUNT
+buy.set_price_and_sell(1,111111111,{from:web3.eth.accounts[5], gas: 999999})
+buy.get_token_data(1)
+buy.get_state(web3.eth.accounts[5])
+buy.buy(1,{from:web3.eth.accounts[0], gas: 999999, value: 111111111})
+
+web3.eth.getBalance(buy.address).toNumber()
+
+for(var i = 1; i < 40; i += 1) {buy._mint(web3.eth.accounts[0],i);}
+for(var i = 1; i < 40; i += 1) {buy.updatetoken(i,"2.3.1",{from:web3.eth.accounts[5]});}
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+buy.get_shares()
+buy.claim()
+
+buy.updatetoken(2,"2.3.1",{from:web3.eth.accounts[5]})
+
+buy.updatetoken(2,"2.3.1",{from:web3.eth.accounts[5]})
+buy.updatetoken(3,"2.3.1",{from:web3.eth.accounts[5]})
+buy.updatetoken(4,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(5,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(6,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(7,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(8,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(9,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(10,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(11,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(12,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(13,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(14,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(15,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(16,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(17,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(18,"2.3.0",{from:web3.eth.accounts[5]})
+

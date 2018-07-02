@@ -1,19 +1,21 @@
 pragma solidity ^0.4.23;
-import './testreg.sol';
-import './strings.sol';
+import "./testreg.sol";
 
 contract update is testreg {
 
-    using strings for *;
+    event UpdateToken(uint256 _tokenId, string new_uri);
 
-    event UpdateToken(uint256 _tokenId, string state);  /// "0,05.good.0"   1.Height  2.Growth_rate  3. Boolean Blooming
+    function updatetoken(uint256 _tokenId, string new_uri) external check(1){
+        TokenId[_tokenId].token_uri = new_uri;
 
-    function updatetoken(uint256 _tokenId, string state) external check(1){
-    var s = state.toSlice();
-    TokenId[_tokenId].height = s.split(".".toSlice()).toString();   // part and return value is "www"
-    TokenId[_tokenId].growth_rate = s.split(".".toSlice()).toString();  // part and return value is "google"
-    TokenId[_tokenId].blooming = s.split(".".toSlice()).toString();
+        emit UpdateToken(_tokenId, new_uri);
+    }
 
-    emit UpdateToken(_tokenId, state);
+    function _mint_with_uri(address _to, uint256 _tokenId, string new_uri) external check(2) {
+        require(_to != address(0));
+        addTokenTo(_to, _tokenId);
+        numTokensTotal = numTokensTotal.add(1);
+        TokenId[_tokenId].token_uri = new_uri;
+        emit Transfer(address(0), _to, _tokenId);
     }
 }
