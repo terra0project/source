@@ -1,5 +1,4 @@
 
-0xdc821cef9a3fc3957702d9bbbdfde927c65148de
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 0xa81Fb3D889f3815C2A742d01aafB32cC1f20C9Bb = for oracle
 							COMMANDS FOR TESTING IN GANACHE
@@ -101,4 +100,3 @@ buy.updatetoken(15,"2.3.0",{from:web3.eth.accounts[5]})
 buy.updatetoken(16,"2.3.0",{from:web3.eth.accounts[5]})
 buy.updatetoken(17,"2.3.0",{from:web3.eth.accounts[5]})
 buy.updatetoken(18,"2.3.0",{from:web3.eth.accounts[5]})
-

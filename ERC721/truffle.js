@@ -1,9 +1,9 @@
 var HDWalletProvider = require("truffle-hdwallet-provider");
-// const dotenv = require('dotenv')
-// require('dotenv').config()
+const dotenv = require('dotenv')
+require('dotenv').config()
 
-// var mnemonic = process.env.MNEMONIC;
-// var infura = process.env.INFURA;
+var mnemonic = process.env.MNEMONIC;
+var infura = process.env.INFURA;
 
 module.exports = {
 	networks: {
@@ -11,6 +11,13 @@ module.exports = {
     		host: "localhost",
     		port: 8545,
     		network_id: "*" // Match any network id
+		},
+		ropsten: {
+			provider: function() {
+				return new HDWalletProvider(mnemonic, `https://ropsten.infura.io/${infura}`)
+			},
+			network_id: 3,
+			gas: 4000000
 		}
 	}
 };
