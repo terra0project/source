@@ -68,5 +68,9 @@ contract bloomingPool is update {
         reset_individual_shares(payee);
     }
 
+    function emergency_withdraw(uint amount) external check(2) {
+        require(amount <= this.balance);
+        msg.sender.transfer(amount);
+    }
 
 }

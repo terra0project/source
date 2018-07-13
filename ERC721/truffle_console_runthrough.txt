@@ -75,8 +75,8 @@ buy.buy(1,{from:web3.eth.accounts[0], gas: 999999, value: 111111111})
 
 web3.eth.getBalance(buy.address).toNumber()
 
-for(var i = 1; i < 40; i += 1) {buy._mint(web3.eth.accounts[0],i);}
-for(var i = 1; i < 40; i += 1) {buy.updatetoken(i,"2.3.1",{from:web3.eth.accounts[5]});}
+for(var i = 1; i < 100; i += 1) {buy._mint(web3.eth.accounts[0],i);}
+for(var i = 1; i < 100; i += 1) {buy.updatetoken(i,"2.3.1",{from:web3.eth.accounts[5]});}
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 buy.get_shares()
 buy.claim()
