@@ -10,13 +10,15 @@ contract bloomingPool is update {
 
     uint256 public totalShares = 0;
     uint256 public totalReleased = 0;
+    bool public freeze;
 
     mapping(address => uint256) public shares;
-    //mapping(address => uint256) public released;
 
-    constructor() public {}
+    constructor() public {
+        freeze = false;
+    }
 
-    function() public payable { } // fallback function for payment acceptance
+    function() public payable { }
 
 
     function calculate_total_shares(uint256 _shares,uint256 unique_id )internal{
@@ -30,6 +32,10 @@ contract bloomingPool is update {
 
     function get_shares() external view returns(uint256 individual_shares){
         return shares[msg.sender];
+    }
+
+    function freeze_pool(bool _freeze) external check(2){
+        freeze = _freeze;
     }
 
     function reset_individual_shares(address payee)internal {
@@ -46,18 +52,16 @@ contract bloomingPool is update {
     }
 
     function payout(address to) internal returns(bool){
+        require(freeze == false);
         address payee = to;
         require(shares[payee] > 0);
 
-        uint256 volume = address(this).balance;   ///totalReleased need to go :(
+        uint256 volume = address(this).balance;
         uint256 payment = volume.mul(shares[payee]).div(totalShares);
-        /* uint256 totalReceived = address(this).balance.add(totalReleased);
-        uint256 payment = totalReceived.mul(shares[payee]).div(totalShares).sub(released[payee]); */
 
         require(payment != 0);
         require(address(this).balance >= payment);
 
-        //released[payee] = released[payee].add(payment);
         totalReleased = totalReleased.add(payment);
         payee.transfer(payment);
         substract_individual_shares(shares[payee]);
