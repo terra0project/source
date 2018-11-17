@@ -18,6 +18,13 @@ module.exports = {
 			},
 			network_id: 3,
 			gas: 4000000
+		},
+		mainnet: {
+			provider: function() {
+				return new HDWalletProvider(mnemonic, `https://mainnet.infura.io${infura}`)
+			},
+			network_id: 1,
+			gas: 5000000
 		}
 	}
 };
