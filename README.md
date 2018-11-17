@@ -1,4 +1,4 @@
-🌲 # terra0 🌲
+#🌲 terra0 🌲
 terra0 is a project building a modular, open-source framework for automated ecosystem and natural resources management, community farming initiatives, and natural asset - NFT binding.   
 
 This repository contains the smart contract and python repos for our most recent projects, Flowertokens and Premna Daemon, as well and archive of our initial code prototypes.
