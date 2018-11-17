@@ -24,10 +24,10 @@ The installation will run until December 21st, 2018.
 - [Documentation](https://medium.com/@terra0/premna-daemon-an-introduction-via-a-history-of-autonomy-in-the-cryptosphere-3cee15e92fe2)</br>
 
 ## Archive 📒 </br>
-
 These contracts make up some of the abstract, early sketches of the sort of logic that a DAO-managed ecosystem would have to contain.  
 
-## 
-For more infos see terra0.org
-or talk to us in our slack:
-http://slack.terra0.org/
+## Community Links </br>
+- [terra0.org](https://terra0.org/)
+- [Twitter](https://twitter.com/_terra0)
+- [Medium](https://medium.com/@terra0)
+- [Slack](https://terra0.slack.com/home)
