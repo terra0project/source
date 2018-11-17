@@ -3,7 +3,6 @@ terra0 is a project building a modular, open-source framework for automated ecos
 
 This repository contains the smart contract and python repos for our most recent projects, Flowertokens and Premna Daemon, as well and archive of our initial code prototypes.
 
-
 ## Flowertokens 💮 </br>
 *Flowertokens* was an experimental project centered around the tokenization and verification of natural commodities, and a first attempt at creating a combined crypto-collectible physical asset.
 
@@ -26,6 +25,9 @@ The installation will run until December 21st, 2018.
 
 ## Archive 📒 </br>
 
+These contracts make up some of the abstract, early sketches of the sort of logic that a DAO-managed ecosystem would have to contain.  
+
+## 
 For more infos see terra0.org
 or talk to us in our slack:
 http://slack.terra0.org/
