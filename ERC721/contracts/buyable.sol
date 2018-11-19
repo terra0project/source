@@ -18,8 +18,8 @@ contract buyable is bloomingPool {
     }
 
     function set_price_and_sell(uint256 UniqueID,uint256 Price) external {
-        TokenIdtosetprice[UniqueID] = Price;
         approve(address(this), UniqueID);
+        TokenIdtosetprice[UniqueID] = Price;
         emit Set_price_and_sell(UniqueID, Price);
     }
 
@@ -44,10 +44,7 @@ contract buyable is bloomingPool {
 		}
     }
 
-    function get_token_data(uint256 _tokenId) external view returns(string _growth_rate,string _height, string _blooming,uint256 _price, bool _buyable, uint256 _setprice){
-        _growth_rate = TokenId[_tokenId].growth_rate;
-        _height = TokenId[_tokenId].height;
-        _blooming = TokenId[_tokenId].blooming;
+    function get_token_data(uint256 _tokenId) external view returns(uint256 _price, uint256 _setprice, bool _buyable){
         _price = TokenIdtoprice[_tokenId];
         _setprice = TokenIdtosetprice[_tokenId];
         if (tokenApprovals[_tokenId] != address(0)){
@@ -68,6 +65,17 @@ contract buyable is bloomingPool {
                 list_of_available[i] = true;
           }else{
                 list_of_available[i] = false;
+          }
+        }
+    }
+    function get_my_tokens()external view returns(bool[101] list_of_my_tokens){
+        uint i;
+        address _owner = msg.sender;
+        for(i = 0;i<101;i++) {
+            if (tokenOwner[i] == _owner){
+                list_of_my_tokens[i] = true;
+          }else{
+                list_of_my_tokens[i] = false;
           }
         }
     }
