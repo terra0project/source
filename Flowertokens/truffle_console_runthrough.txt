@@ -1,0 +1,102 @@
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+0xa81Fb3D889f3815C2A742d01aafB32cC1f20C9Bb = for oracle
+							COMMANDS FOR TESTING IN GANACHE
+
+INITALISATION
+buyable.deployed().then(function(instance){buy=instance;})
+infrastructurePool.deployed().then(function(instance){infrastructure = instance;})
+buy.initialisation(infrastructure.address)
+buy.getRole(web3.eth.accounts[0])
+web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
+
+TOKEN TRANSFERAL PART 1: OWNERSHIP [0] -> [1] & TESTING SET_PRICE_AND_SELL TRIGGER WORKS PROPERLY
+******* buy._mint(web3.eth.accounts[0],1) ***** DONT USE THIS IN PRODUCTION (COVERED BY SCRIPT)
+buy.exists(1)
+buy.balanceOf(web3.eth.accounts[0]).then(function(instance){return instance.toNumber()})
+******* buy.setApprovalForAll(buyable.address,true) DON'T EXPOSE THIS IN THE INTERFACE & DONT USE FOR TESTING: NOT NEEDED *******
+buy.isApprovedOrOwner(buyable.address,1)
+buy.isApprovedForAll(web3.eth.accounts[0],buyable.address)
+buy.ownerOf(1)
+buy.set_price_and_sell(1,111111111)
+buy.get_token_data_buyable(1)
+buy.get_token_data(1)
+buy.stop_sell(1)
+buy.get_token_data_buyable(1)
+buy.get_token_data(1)
+buy.set_price_and_sell(1,111111111)
+buy.get_token_data_buyable(1)
+buy.get_token_data(1)
+buy.get_all_sellable_token()
+
+TOKEN TRANSFERAL PART 2: CHECKING BLOOMING AND INFRASTRUCTURE PARSING WORKS
+web3.eth.sendTransaction({from:web3.eth.accounts[5],to:web3.eth.accounts[2],amount:1000})
+web3.eth.sendTransaction({from:web3.eth.accounts[6],to:web3.eth.accounts[2],amount:1000})
+web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
+web3.eth.getBalance(web3.eth.accounts[6]).toNumber()
+web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
+buy.buy(1,{from:web3.eth.accounts[5], gas: 999999, value: 111111111})
+buy.balanceOf(web3.eth.accounts[5]).then(function(instance){return instance.toNumber()})
+buy.balanceOf(web3.eth.accounts[0]).then(function(instance){return instance.toNumber()})
+web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
+web3.eth.getBalance(web3.eth.accounts[6]).toNumber()
+web3.eth.getBalance(buy.address).toNumber()
+web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
+
+INFRASTRUCTURE POOL ACCOUNT WITHDRAWAL
+web3.eth.getBalance(infrastructure.address).toNumber()
+infrastructure.withdrawFunds(9999,{from:web3.eth.accounts[2],gas:99999,value:0}) // THIS SHOULD FAIL BECAUSE OF PERMISSIONS FROM ACL
+infrastructure.withdrawFunds(9999,{from:web3.eth.accounts[0],gas:99999,value:0})
+web3.eth.getBalance(infrastructure.address).toNumber()
+
+BLOOMING POOL PAYOUT CHECK
+buy.setRole(1,web3.eth.accounts[5])
+buy.getRole(web3.eth.accounts[5]).then(function(instance){return instance.toNumber()})
+buy._mint(web3.eth.accounts[0],2)
+buy._mint(web3.eth.accounts[6],3)
+buy.balanceOf(web3.eth.accounts[6]).then(function(instance){return instance.toNumber()})
+buy.balanceOf(web3.eth.accounts[0]).then(function(instance){return instance.toNumber()})
+web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
+web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
+buy.updatetoken(2,"2.3.1",{from:web3.eth.accounts[5]})
+buy.updatetoken(3,"8.7.0",{from:web3.eth.accounts[5]})
+buy.get_token_data(2)
+buy.get_token_data(3)
+buy.oracle_call({from:web3.eth.accounts[5]})
+web3.eth.getBalance(web3.eth.accounts[5]).toNumber()
+web3.eth.getBalance(web3.eth.accounts[0]).toNumber()
+web3.eth.getBalance(buy.address).toNumber()
+
+BUYING FROM OTHER ACCOUNT
+buy.set_price_and_sell(1,111111111,{from:web3.eth.accounts[5], gas: 999999})
+buy.get_token_data(1)
+buy.get_state(web3.eth.accounts[5])
+buy.buy(1,{from:web3.eth.accounts[0], gas: 999999, value: 111111111})
+
+web3.eth.getBalance(buy.address).toNumber()
+
+for(var i = 1; i < 100; i += 1) {buy._mint(web3.eth.accounts[0],i);}
+for(var i = 1; i < 100; i += 1) {buy.updatetoken(i,"2.3.1",{from:web3.eth.accounts[5]});}
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+buy.get_shares()
+buy.claim()
+
+buy.updatetoken(2,"2.3.1",{from:web3.eth.accounts[5]})
+
+buy.updatetoken(2,"2.3.1",{from:web3.eth.accounts[5]})
+buy.updatetoken(3,"2.3.1",{from:web3.eth.accounts[5]})
+buy.updatetoken(4,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(5,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(6,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(7,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(8,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(9,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(10,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(11,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(12,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(13,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(14,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(15,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(16,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(17,"2.3.0",{from:web3.eth.accounts[5]})
+buy.updatetoken(18,"2.3.0",{from:web3.eth.accounts[5]})
