@@ -32,4 +32,5 @@ These contracts make up some of the abstract, early sketches of the sort of logi
 - [Medium](https://medium.com/@terra0)
 - [Slack](https://terra0.slack.com/home)
 
-If you'd like to join the Slack channel (or reach out for any other reason), get in touch with us at info@terra0.org.
+
+If you'd like to join the Slack channel (or reach out for any other reason), get in touch with us at info@terra0.org. 
