@@ -13,10 +13,14 @@ contract buyable is bloomingPool {
 
     constructor() public {}
 
+    /// @dev function to set INFRASTRUCTURE_POOL_ADDRESS global var to address of deployed infrastructurePool contract
+    /// @param _infrastructure_address address of deployed infrastructurePool contract
+    /// @modifier check(2) checks role of entity calling function by address has ADMIN role
     function initialisation(address _infrastructure_address) public check(2){
         INFRASTRUCTURE_POOL_ADDRESS = _infrastructure_address;
     }
 
+    
     function set_price_and_sell(uint256 UniqueID,uint256 Price) external {
         approve(address(this), UniqueID);
         TokenIdtosetprice[UniqueID] = Price;
@@ -41,7 +45,7 @@ contract buyable is bloomingPool {
         this.transferFrom(tokenOwner[UniqueID], _to, UniqueID);
         if(!INFRASTRUCTURE_POOL_ADDRESS.call.gas(99999).value(_infrastructure)()){
             revert("transfer to infrastructurePool failed");
-		}
+		    }
     }
 
     function get_token_data(uint256 _tokenId) external view returns(uint256 _price, uint256 _setprice, bool _buyable){
