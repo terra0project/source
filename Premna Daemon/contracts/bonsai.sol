@@ -13,7 +13,7 @@ contract bonsai {
     mapping (string => address) pooladresses;
 
 /**
- * @dev The Ownable constructor sets the original `trigger` of the contract to the sender
+ * @dev The constructor sets the original `trigger` of the contract to the sender
  * account.
  */
 
